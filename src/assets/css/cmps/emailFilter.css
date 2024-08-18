@@ -1,0 +1,17 @@
+
+.email-filter{
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+    background-color: white;
+    border-radius: 5x;
+    border: 0.5px solid;
+    border-color: lightgray;
+}
+input{
+    border-radius: 5x;
+    border: 0.5px solid;
+    border-color: lightgray;
+}
