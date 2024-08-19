@@ -24,7 +24,7 @@ export default function EmailFolderList({ filterBy, onFilterBy }) {
 
   return (
     <section className="email-folder-list-section">
-      <button>Compose</button>
+      {/* <button>Compose</button> */}
 
       <h4 onClick={onChooseFolder}>Inbox</h4>
       <h4 onClick={onChooseFolder}>Sent</h4>
