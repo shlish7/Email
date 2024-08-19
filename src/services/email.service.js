@@ -26,13 +26,14 @@ async function query(filterBy) {
         return (isRead===null || email.isRead=== isRead) && 
         (
             email.subject.toLowerCase().includes(txt.toLowerCase())||
-        email.body.toLowerCase().includes(txt.toLowerCase())
+        email.body.toLowerCase().includes(txt.toLowerCase()
+    )
     )
     }) 
     const filters = {
-        inbox: email => email.to === 'user@appsus.com',
-        sent: email => email.to !== 'user@appsus.com',
-        star: email => email.isStarred === true,
+        inbox: email => email.to === 'user@appsus.com' && email.removedAt===null,
+        sent: email => email.to !== 'user@appsus.com'  && email.removedAt===null,
+        star: email => email.isStarred === true && email.removedAt===null,
         trash: email => !!email.removedAt
     };
     

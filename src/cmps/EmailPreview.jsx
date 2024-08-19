@@ -17,7 +17,10 @@ function EmailPreview({ email }) {
 
     useEffect(() => {
         // console.log("Email:", email)
-    }, [isRead,showIcons,isStarred])
+        const updatedEmail = { ...email, removedAt: moveToTrash }
+            emailService.save(updatedEmail)
+    }, [moveToTrash, isRead,showIcons,isStarred])
+    
 
     const date = new Date();
     let day = date.getDate();
@@ -70,7 +73,17 @@ function EmailPreview({ email }) {
     function moveEmailToTrash(e){
         e.stopPropagation()
         e.preventDefault()
-        setMoveToTrash(prev=>!prev)
+        console.log("currentDate:", currentDate)
+
+        console.log("moveToTrash:", moveToTrash)
+
+        const updatedEmail = { ...email, removedAt:  moveToTrash}
+        console.log("updatedEmail:", updatedEmail)
+
+        emailService.save(updatedEmail)
+        setMoveToTrash(currentDate)
+
+
     }
 
 
