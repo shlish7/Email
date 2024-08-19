@@ -1,16 +1,23 @@
 
 .email-filter{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    /* margin-top: 20px; */
+    justify-content: flex-start;
+    
 }
 
 button{
+    margin-top: 20px;
     background-color: white;
     border-radius: 5x;
     border: 0.5px solid;
     border-color: lightgray;
+    height: 40px;
 }
 input{
+    margin-top: 20px;
+    width:700px;
     border-radius: 5x;
     border: 0.5px solid;
     border-color: lightgray;

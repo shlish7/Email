@@ -5,10 +5,21 @@
 }
 
 .email-folder-list-section{
-    background-color: rgb(234, 234, 234);
+    /* background-color: rgb(234, 234, 234); */
+    /* background-color: rgb(177,213,239); */
+    background-color: rgb(227, 231, 234);
+    /* background-color: #b1d5ef;  */
     height: 100vh;
-    width: 100vh;
+    width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 100px;
+    justify-content: flex-start;
+    
+}
+
+h4{
+    margin-bottom: 20px;
+    font-weight: bold;
 }

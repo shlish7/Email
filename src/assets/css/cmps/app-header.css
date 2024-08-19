@@ -1,6 +1,8 @@
 .app-header {
-    background: #e91e63;
-    color: white;
+    /* background: #e91e63; */
+    background-color: rgb(227, 231, 234);
+
+    color: black;
     display: flex;
     align-items:center;
     justify-content: space-evenly;
@@ -10,7 +12,9 @@
 
 .app-header section.container {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
 
 }
 
@@ -36,4 +40,6 @@ nav{
     align-items: center;
     justify-content: space-between;
     gap: 1em;
+    color:black;
+
 }

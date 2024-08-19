@@ -13,6 +13,7 @@ export function EmailIndex() {
 
     const [emails, setEmails] = useState([])
     const [filterBy, setFilterBy] = useState(defaultFilter)
+    
     useEffect(() => {
         console.log("Emails:", emails)
         loadEmails()
@@ -29,16 +30,28 @@ export function EmailIndex() {
         }
     }
 
+    async function removeEmail(emailId) {
+        try {
+            await emailService.remove(emailId)
+            setEmails(email => emails.filter(email => email.id !== emailId))
+        } catch (err) {
+            console.log(err)            
+            alert('Couldnt remove email')
+        }
+    }
     function onFilterBy(filterBy) {
+        console.log("filterBy: ", filterBy)
         setFilterBy(filterBy)
     }
 
     if (!emails) return <div>Loading...</div>
     return <section className="email-index-section">
 
-        <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy}  />
-        <EmailFilter filterBy={filterBy} onFilterBy={onFilterBy} />
-        <EmailList emails={emails} />
+        <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy} />
+        <section className="emails-list">
+            <EmailFilter filterBy={filterBy} onFilterBy={onFilterBy} />
+            <EmailList emails={emails} onRemove={removeEmail} />
+        </section>
 
     </section>
 

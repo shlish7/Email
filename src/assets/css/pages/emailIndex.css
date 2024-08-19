@@ -3,22 +3,27 @@
     padding: 0;
     margin: 0;
 
-   
+
 }
 .email-index-section{
     display: flex;
     flex-direction: row;
     gap: 10px;
+    /* border: none;
+    border-radius: 20px; */
+  
 }
 
-ul{
-
+.emails-list{
+    height: 100%;
+    width: 100%;
 }
+
+
 li{
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    list-style-type: none;
     border: 0.5px solid lightgray;
     height: 40px;
     padding-left: 10px;
@@ -26,7 +31,8 @@ li{
 }
 
 li:hover{
-    background-color: rgb(235, 235, 235);
+    /* background-color: rgb(235, 235, 235); */
+    background-color: rgb(177,213,239);
 }
 
 input{

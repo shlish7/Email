@@ -1,0 +1,36 @@
+/* li{
+    width:100vw;
+    margin-right: 20px;
+} */
+
+img{
+    height: 15px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+li{
+    display: flex;
+    flex-Direction: row;
+    justify-Content: space-between;
+}
+.link-to-details{
+    display: flex;
+
+    flex-Direction: row;
+    justify-Content: space-between;
+    width: 100%;
+}
+
+.email-clicked{
+    background-color: rgb(177,213,239);
+
+}
+
+span{
+    float: right;
+    text-align: right;
+}
+
+.current-date{
+    padding-right: 20px;
+}

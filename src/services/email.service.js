@@ -5,7 +5,7 @@ export const emailService = {
     query,
     getById,
     remove,
-    // save,
+    save,
     // createEmail,
     getDefaultFilter
 
@@ -21,14 +21,22 @@ _createUsers()
 async function query(filterBy) {
     let emails = await storageService.query(STORAGE_KEY)
     if(filterBy){
-        let {txt='', isRead=null} = filterBy
-   
-
-    emails = emails.filter(email => {
+        let {status = '', txt='', isRead=null} = filterBy
+        emails = emails.filter(email => {
         return (isRead===null || email.isRead=== isRead) && 
-        (email.subject.toLowerCase().includes(txt.toLowerCase())||
-        email.body.toLowerCase().includes(txt.toLowerCase()))
-    })   
+        (
+            email.subject.toLowerCase().includes(txt.toLowerCase())||
+        email.body.toLowerCase().includes(txt.toLowerCase())
+    )
+    }) 
+    const filters = {
+        inbox: email => email.to === 'user@appsus.com',
+        sent: email => email.to !== 'user@appsus.com',
+        star: email => email.isStarred === true,
+        trash: email => !!email.removedAt
+    };
+    
+    return status ? emails.filter(filters[status]) : emails;  
 }
     return emails
 
@@ -51,6 +59,15 @@ function getDefaultFilter() {
 }
 
 
+function save(emailToSave) {
+    if (emailToSave.id) {
+        return storageService.put(STORAGE_KEY, emailToSave)
+    } else {
+        return storageService.post(STORAGE_KEY, emailToSave)
+    }
+}
+
+
 function _createEmails() {
     let emails = utilService.loadFromStorage(STORAGE_KEY)
     if (emails && emails.length > 0) return
@@ -65,8 +82,8 @@ function _createEmails() {
             isStarred: true,
             sentAt: 1551133930594,
             removedAt: null, //for later use from: 'momo@momo.com',
-            to: 'demo@appsus.com'
-        },
+            from: 'momo@momo.com',
+            to: 'demo@appsus.com'        },
         {
             id: 'e102',
             subject: 'Hello there!',
@@ -75,6 +92,7 @@ function _createEmails() {
             isStarred: false,
             sentAt: 1551133930594,
             removedAt: null, //for later use from: 'momo@momo.com',
+            from: 'koko@koko.com',
             to: 'user@appsus.com'
         },
         {
@@ -85,6 +103,7 @@ function _createEmails() {
             isStarred: false,
             sentAt: 1551133930594,
             removedAt: null, //for later use from: 'momo@momo.com',
+            from: 'popo@mpopo.com',
             to: 'ilan@appsus.com'
         },
         {
@@ -95,6 +114,7 @@ function _createEmails() {
             isStarred: false,
             sentAt: 1551133930594,
             removedAt: null, //for later use from: 'momo@momo.com',
+            from: 'toto@toto.com',
             to: 'user@appsus.com'
         },
         {
@@ -105,6 +125,7 @@ function _createEmails() {
             isStarred: true,
             sentAt: 1551133930594,
             removedAt: null, //for later use from: 'momo@momo.com',
+            from: 'fofo@fofo.com',
             to: 'user@appsus.com'
         },
     ]

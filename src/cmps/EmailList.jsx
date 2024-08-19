@@ -1,11 +1,17 @@
 import React from 'react'
 import EmailPreview from './EmailPreview'
 
-function EmailList({emails}) {
+function EmailList({emails, onRemove}) {
     return (
-            <ul>
+            <ul >
             {emails.map(email => (
-                            <EmailPreview email={email}  key={email.id}/>
+                <div key={email.id} className='email-item'>
+                     <EmailPreview email={email}  key={email.id}/>
+                     <button onClick={() => onRemove(email.id)}>Remove</button>
+
+
+                </div>
+                            
 
             ))}
 

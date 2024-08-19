@@ -1,0 +1,25 @@
+
+
+ul{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+    list-style: square;
+}
+
+li{
+    width: 700px;
+
+}
+
+.email-item{
+    display: flex;
+    flex-direction: row;
+    gap:5px;
+
+}
+
+button{
+    height: 40px;
+}
