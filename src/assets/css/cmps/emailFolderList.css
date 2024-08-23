@@ -1,25 +1,66 @@
-*{
+ *{
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
 .email-folder-list-section{
-    /* background-color: rgb(234, 234, 234); */
-    /* background-color: rgb(177,213,239); */
+
     background-color: rgb(227, 231, 234);
-    /* background-color: #b1d5ef;  */
-    height: 100vh;
-    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 100px;
+}
+ul{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+.folder-li{
+    display: flex;
+    justify-content: center;
+}
+
+.folder-icons{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.folder-li:hover{
+    box-shadow: 5px 5px 5px 5px rgb(194, 198, 199);
+    cursor: pointer;
+    border:1px solid 5px 5px 5px 5px rgb(82, 84, 85);
+    border-radius: 10px;
+}
+
+
+/* ul{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+
+.email-folder-list-section{
+
+    background-color: rgb(227, 231, 234);
+    height: 100vh;
     padding-top: 100px;
-    justify-content: flex-start;
-    
+    display: flex;
+    align-content: center;
 }
 
 h4{
     margin-bottom: 20px;
     font-weight: bold;
 }
+
+h4:hover{
+    box-shadow: 5px 5px 5px 5px rgb(227, 231, 234);
+
+}   */
+
+

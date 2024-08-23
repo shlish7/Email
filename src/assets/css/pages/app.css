@@ -4,10 +4,26 @@
     margin: 0;
 }
 
-.container{
+/* .container{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-        
+} */
+
+.main-app{
+    display: grid;
+    flex-direction: column;
+    height: 100vh;
+    grid-template-rows:  1fr 14fr 1fr;
+    /* overflow: hidden; */
+
 }
+
+.grid-main-container{
+    overflow-y: auto; /* Allows the content inside the main container to scroll if it overflows */
+
+
+}
+
+
 

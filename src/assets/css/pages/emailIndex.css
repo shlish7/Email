@@ -1,4 +1,4 @@
-*{
+/* *{
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -9,8 +9,7 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    /* border: none;
-    border-radius: 20px; */
+
   
 }
 
@@ -31,11 +30,33 @@ li{
 }
 
 li:hover{
-    /* background-color: rgb(235, 235, 235); */
     background-color: rgb(177,213,239);
 }
 
 input{
     padding: 10px;
     border-radius: 5px;
+} */
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+}
+
+.email-index-section {
+    display: grid;
+    grid-template-columns: 1fr   9fr;
+    background-color: rgb(227, 231, 234);
+
+
+}
+
+.emails-list {
+    padding-left: 20px;
+    background-color: white;
+    border-radius: 10px;
+    margin-right: 2px;
+
 }

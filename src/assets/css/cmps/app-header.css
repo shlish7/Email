@@ -1,5 +1,4 @@
-.app-header {
-    /* background: #e91e63; */
+/* .app-header {
     background-color: rgb(227, 231, 234);
 
     color: black;
@@ -41,5 +40,27 @@ nav{
     justify-content: space-between;
     gap: 1em;
     color:black;
+
+} */
+
+.app-header{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 9fr;
+    align-items: center;
+    justify-items: center;
+    background-color: rgb(227, 231, 234);
+
+}
+
+nav{
+    display: flex;
+    gap:40px;
+}
+
+a{
+    text-decoration-line: none;
+    color:black;
+    
 
 }

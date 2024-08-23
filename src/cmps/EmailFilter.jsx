@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 function EmailFilter({ filterBy, onFilterBy }) {
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
@@ -13,7 +15,6 @@ function EmailFilter({ filterBy, onFilterBy }) {
 
   function handleChange({ target }) {
     const { value, name } = target
-    console.log(filterByToEdit)
     setFilterByToEdit(prev => ({ ...prev, [name]: value }))
   }
 
@@ -28,15 +29,19 @@ function EmailFilter({ filterBy, onFilterBy }) {
 
   return <section className='email-filter'>
     {/* <label htmlFor="txt">Subject</label> */}
-    <input
-      value={filterByToEdit.txt}
-      onChange={handleChange}
-      id="txt"
-      name="txt"
-      type="text"
-      placeholder='Search...' />
+    <div className="input-container">
+      <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+      <input
+        value={filterByToEdit.txt}
+        onChange={handleChange}
+        id="txt"
+        name="txt"
+        type="text"
+        placeholder='Search Email...'
+      />
+    </div>
 
-    <button className="isRead" onClick={onReadBtnClicked}>{btnName()}</button>
+    <button className="isReadBtn" onClick={onReadBtnClicked}>{btnName()}</button>
   </section>
 
 }

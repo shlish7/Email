@@ -1,23 +1,23 @@
-/* li{
-    width:100vw;
-    margin-right: 20px;
-} */
+/* 
+
+
+li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 img{
     height: 15px;
     margin-right: 10px;
     margin-left: 10px;
 }
-li{
-    display: flex;
-    flex-Direction: row;
-    justify-Content: space-between;
-}
+
 .link-to-details{
     display: flex;
 
-    flex-Direction: row;
-    justify-Content: space-between;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
 }
 
@@ -33,4 +33,38 @@ span{
 
 .current-date{
     padding-right: 20px;
+}
+ */
+
+
+ 
+ li{
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    justify-content: space-around;
+    align-items: center;
+    border-top:1px solid rgb(227, 231, 234);
+    border-bottom:1px solid rgb(227, 231, 234);
+    padding: 10px 10px 10px 10px ;
+}
+
+li:hover{
+ box-shadow: 5px 5px 5px 5px rgb(227, 231, 234);
+ 
+}
+
+img{
+    height: 15px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+a{
+    display: flex;
+    justify-content: space-between;
+}
+
+.email-clicked{
+    background-color: rgb(207, 234, 252);
+
 }

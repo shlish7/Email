@@ -18,10 +18,12 @@ _createUsers()
 
 
 
+
 async function query(filterBy) {
     let emails = await storageService.query(STORAGE_KEY)
     if(filterBy){
         let {status = '', txt='', isRead=null} = filterBy
+        
         emails = emails.filter(email => {
         return (isRead===null || email.isRead=== isRead) && 
         (
@@ -36,6 +38,13 @@ async function query(filterBy) {
         star: email => email.isStarred === true && email.removedAt===null,
         trash: email => !!email.removedAt
     };
+
+    // const filters = {
+    //     inbox: email => email.to === 'user@appsus.com' ,
+    //     sent: email => email.to !== 'user@appsus.com'  ,
+    //     star: email => email.isStarred === true ,
+    //     trash: email => !!email.removedAt
+    // };
     
     return status ? emails.filter(filters[status]) : emails;  
 }
@@ -92,7 +101,7 @@ function _createEmails() {
             isRead: false,
             isStarred: false,
             sentAt: 1551133930594,
-            removedAt: null, //for later use from: 'momo@momo.com',
+            removedAt: null, //for later use from: 'koko@koko.com',
             from: 'koko@koko.com',
             to: 'user@appsus.com'
         },
@@ -103,7 +112,7 @@ function _createEmails() {
             isRead: true,
             isStarred: false,
             sentAt: 1551133930594,
-            removedAt: null, //for later use from: 'momo@momo.com',
+            removedAt: null, //for later use from: 'popo@mpopo.com',
             from: 'popo@mpopo.com',
             to: 'ilan@appsus.com'
         },
@@ -114,7 +123,7 @@ function _createEmails() {
             isRead: false,
             isStarred: false,
             sentAt: 1551133930594,
-            removedAt: null, //for later use from: 'momo@momo.com',
+            removedAt: null, //for later use from: 'toto@toto.com',
             from: 'toto@toto.com',
             to: 'user@appsus.com'
         },
@@ -125,7 +134,7 @@ function _createEmails() {
             isRead: true,
             isStarred: true,
             sentAt: 1551133930594,
-            removedAt: null, //for later use from: 'momo@momo.com',
+            removedAt: null, //for later use from: 'fofo@fofo.com',
             from: 'fofo@fofo.com',
             to: 'user@appsus.com'
         },

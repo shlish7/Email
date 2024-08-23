@@ -7,19 +7,15 @@ import { emailService } from '../services/email.service'
 import envelope from '../assets/imgs/envelope.png'
 import trash from '../assets/imgs/trash.png'
 
-function EmailPreview({ email }) {
+function EmailPreview({ email, onUpdateEmail }) {
 
     const [openDetails, setOpenDetails] = useState(false)
     const [isRead, setIsRead] = useState(email.isRead || false)
-    const [isStarred, setIsStarred] = useState(email.isStarred || false)
     const [showIcons,setShowIcons] = useState(false)
-    const [moveToTrash,setMoveToTrash] = useState();
 
     useEffect(() => {
-        // console.log("Email:", email)
-        const updatedEmail = { ...email, removedAt: moveToTrash }
-            emailService.save(updatedEmail)
-    }, [moveToTrash, isRead,showIcons,isStarred])
+   
+    }, [isRead,showIcons])
     
 
     const date = new Date();
@@ -32,25 +28,18 @@ function EmailPreview({ email }) {
     let currentDate = `${day}-${month}-${year} ${hour}:${minute}:${seconds}`
 
     function onOpenEmail() {
-
-        // console.log("email opened, email ID: ", email.id, "openDetails: ", openDetails)
         setOpenDetails(prev => !prev)
-        // console.log("email opened, email ID: ", email.id, "openDetails: ", openDetails)
-        console.log("email item color: ", isRead)
         setIsRead(true)
-        // const update = {...email, : !isRead}
         const update = {...email, isRead: true}
-
         emailService.save(update)
 
 
     }
     function changeStar(e) {
         e.stopPropagation()
-        setIsStarred(prev => !prev)
-        const updatedEmail = { ...email, isStarred: !isStarred }
-        console.log("updatedEmail:", updatedEmail)
-        emailService.save(updatedEmail)
+        const emailToUpdate = { ...email, isStarred: !email.isStarred }
+        onUpdateEmail(emailToUpdate)
+   
 
     }
 
@@ -61,48 +50,35 @@ function EmailPreview({ email }) {
     function chagneToUnread(e){
         e.stopPropagation()
         e.preventDefault()
-        console.log("email is read?: ", isRead)
-
         setIsRead(false)
-        console.log("email is read?: ", isRead)
-
         const update = {...email, isRead: false}
         emailService.save(update)
     }
 
-    function moveEmailToTrash(e){
+
+    
+    function onMoveToTrash(e){
         e.stopPropagation()
         e.preventDefault()
-        console.log("currentDate:", currentDate)
-
-        console.log("moveToTrash:", moveToTrash)
-
-        const updatedEmail = { ...email, removedAt:  moveToTrash}
-        console.log("updatedEmail:", updatedEmail)
-
-        emailService.save(updatedEmail)
-        setMoveToTrash(currentDate)
-
-
+        const emailToUpdate = { ...email, removedAt:  currentDate}
+        onUpdateEmail(emailToUpdate)
     }
 
 
     return (
-        <div>
         <li onClick={onOpenEmail} onMouseEnter={showEmailIcons} onMouseLeave={showEmailIcons} className={isRead ? 'email-clicked':''}>
-            <img onClick={changeStar} src={isStarred ? yellowStar : whiteStar} alt="" />
+            <img onClick={changeStar} src={email.isStarred ? yellowStar : whiteStar} alt="" />
             <Link className='link-to-details' to={`/emailDetails/${email.id}`}>
-                <span>{email.from}</span>
-                <span>{email.subject}</span>
+                <span className='email-from'>{email.from}</span>
+                <span className='email-subject'>{email.subject}</span>
                {showIcons &&  <>
-                <img onClick={chagneToUnread} src={envelope} alt="envelope" />
-                <img  onClick={moveEmailToTrash} src={trash} alt="trash" /></>
+                <img className='envelope-icon' onClick={chagneToUnread} src={envelope} alt="envelope" />
+                <img  className='trash-icon' onClick={onMoveToTrash} src={trash} alt="trash" /></>
                
                } 
-               {!showIcons && <span className="current-date">{currentDate}</span> } 
+               {!showIcons && <span className='email-date'>{currentDate}</span> } 
             </Link>
         </li>
-        </div>
 
     )
 }

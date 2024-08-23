@@ -1,24 +1,61 @@
 
-.email-filter{
-    display: flex;
-    flex-direction: row;
-    /* margin-top: 20px; */
-    justify-content: flex-start;
-    
-}
 
-button{
-    margin-top: 20px;
-    background-color: white;
-    border-radius: 5x;
-    border: 0.5px solid;
-    border-color: lightgray;
-    height: 40px;
-}
-input{
-    margin-top: 20px;
-    width:700px;
-    border-radius: 5x;
-    border: 0.5px solid;
-    border-color: lightgray;
-}
+
+    .email-filter{
+        display: flex;
+        flex-direction: row;
+        /* margin-top: 20px; */
+    }
+    
+    .input-container {
+        position: relative;
+        width: 100%;
+      }
+    
+      .input-container input {
+        width: 100%;
+        padding: 10px 40px 10px 20px; /* Adjust the padding to make space for the icon */
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+    
+      .search-icon {
+        position: absolute;
+        right: 10px; /* Position the icon inside the input */
+        /* top: 40px; */
+        top: 65%;
+    
+        transform: translateY(-50%);
+        color: #aaa; /* Icon color */
+      }
+    
+
+    input{
+        margin-top: 20px;
+        padding-left: 15px;
+        width:700px;
+        border: 0.5px solid;
+        border-radius: 10px;
+        border-color: lightgray;
+        outline: none;
+    }
+    
+    .isReadBtn{
+        margin-top: 20px;
+        padding: 4px;
+        background-color: white;
+        border: 0.5px solid lightgray;
+        border-radius: 10px;
+    
+        height: 40px;
+    }
+
+    button{
+        margin-top: 20px;
+        background-color: white;
+        border: 0.5px solid;
+        border-color: lightgray;
+        border-radius: 5x;
+    
+        height: 40px;
+    }
