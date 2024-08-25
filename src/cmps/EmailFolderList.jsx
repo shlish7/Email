@@ -7,6 +7,8 @@ import { faInbox } from '@fortawesome/free-solid-svg-icons'
 export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) {
 
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  const [activeFolder, setActiveFolder] = useState('inbox')
+
 
 
   useEffect(() => {
@@ -21,6 +23,7 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) 
     console.log("textContent: ", textContent.toLowerCase().trim())
 
     setFilterByToEdit(prev => ({ ...prev, ["status"]: textContent.toLowerCase().trim() }))
+    setActiveFolder(textContent.toLowerCase().trim())
 
   }
 
@@ -32,11 +35,14 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) 
         {
           emailFolders.map((folder, idx) => {
 
-            return <li className="folder-li" key={idx} onClick={onChooseFolder}>
+            return <li className={`folder-li ${activeFolder === folder.name.toLowerCase() ? 'active' : ''}`}  key={idx} onClick={onChooseFolder}>
+            {/* return <li className="folder-li" key={idx} onClick={onChooseFolder}> */}
               <FontAwesomeIcon icon={folder.icon} className="folder-icons" />
-              <h4>{folder.name}</h4>
-              {/* <FontAwesomeIcon onClick={onChooseFolder} icon={folder.icon} className="folder-icons" />
-              <h4 onClick={onChooseFolder}>{folder.name}</h4> */}
+              <h4
+                className={`folder-name ${activeFolder === folder.name.toLowerCase() ? 'active' : ''}`}              
+                >
+                  {folder.name}</h4>
+
             </li>
           })
         }
