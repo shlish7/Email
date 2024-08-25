@@ -56,7 +56,7 @@ function remove(id) {
 
 function getDefaultFilter() {
     return {
-        status: "", 
+        status: "inbox", 
         txt: "", 
         isRead: null,
     }

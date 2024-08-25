@@ -14,22 +14,10 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) 
   }, [filterByToEdit])
 
 
-  // const foldersIcons = [
-  //   { name: 'Inbox', icon: faInbox },
-  //   { name: 'Sent', icon: faPaperPlane },
-  //   { name: 'Star', icon: faStar },
-  //   { name: 'Trash', icon: faTrashCan }
-  // ];
-
-  // const foldersIcons = ['faInbox', 'faPaperPlane', 'faStar', 'faTrashCan']
-
 
   function onChooseFolder({ target }) {
     const { value, name, textContent } = target
-    // console.log("target: ", target)
-    // console.log("value: ", value)
-    // console.log("name: ", name)
-    // console.log("textContent: ", textContent)
+
     console.log("textContent: ", textContent.toLowerCase().trim())
 
     setFilterByToEdit(prev => ({ ...prev, ["status"]: textContent.toLowerCase().trim() }))
@@ -43,12 +31,13 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) 
       <ul className='folder-list-ul'>
         {
           emailFolders.map((folder, idx) => {
-            // console.log("idx: " ,idx)
-            // console.log("folder: " ,folder.idx)
-           return  <li className="folder-li" key={idx} onClick={onChooseFolder}>
-              <FontAwesomeIcon icon={folder.icon} className="folder-icons"/>
-              <h4  onClick={onChooseFolder}>{folder.name}</h4>
-              </li>
+
+            return <li className="folder-li" key={idx} onClick={onChooseFolder}>
+              <FontAwesomeIcon icon={folder.icon} className="folder-icons" />
+              <h4>{folder.name}</h4>
+              {/* <FontAwesomeIcon onClick={onChooseFolder} icon={folder.icon} className="folder-icons" />
+              <h4 onClick={onChooseFolder}>{folder.name}</h4> */}
+            </li>
           })
         }
       </ul>
