@@ -7,6 +7,8 @@ import EmailFolderList from "../cmps/EmailFolderList"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faTrashCan, faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { faInbox } from '@fortawesome/free-solid-svg-icons'
+import gmailLogo from '../assets/imgs/gmailLogo.png'
+
 
 
 
@@ -79,12 +81,21 @@ export function EmailIndex() {
 
     if (!emails) return <div>Loading...</div>
     return <section className="email-index-section">
+        <header className="email-index-header">
 
+        <EmailFilter filterBy={filterBy} onFilterBy={onFilterBy} />
+
+        </header>
+        <aside className="email-index-left-aside">
         <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy}  emailFolders={emailFolders}/>
-        <section className="emails-list">
-            <EmailFilter filterBy={filterBy} onFilterBy={onFilterBy} />
-            <EmailList emails={emails} onRemove={removeEmail} onUpdateEmail={onUpdateEmail} filterBy={filterBy}/>
-        </section>
+        </aside>
+    <main className="emails-list">
+    <EmailList emails={emails} onRemove={removeEmail} onUpdateEmail={onUpdateEmail} filterBy={filterBy}/>
+
+    </main>
+      <aside className="email-index-right-aside">
+
+      </aside>
 
     </section>
 
