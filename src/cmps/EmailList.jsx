@@ -3,7 +3,8 @@ import EmailPreview from './EmailPreview'
 
 function EmailList({emails, onRemove, onUpdateEmail, filterBy}) {
     return (
-            <ul >
+        <section className="email-list-section">
+            <ul className="email-list-ul">
             {emails.map(email => (
                 <div key={email.id} className='email-item'>
                      <EmailPreview email={email}  key={email.id} onUpdateEmail={onUpdateEmail}/>
@@ -16,6 +17,7 @@ function EmailList({emails, onRemove, onUpdateEmail, filterBy}) {
             ))}
 
             </ul>
+            </section>
     )
 }
 

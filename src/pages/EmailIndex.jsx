@@ -17,15 +17,14 @@ export function EmailIndex() {
     const [filterBy, setFilterBy] = useState(defaultFilter)
     
     useEffect(() => {
-
+        
         loadEmails()
     }, [filterBy, emails])
 
     async function loadEmails() {
         try {
-
             const emails = await emailService.query(filterBy)
-            // console.log("Email Index Emails: " , emails)
+            // console.log("Email Index: " , emails)
             setEmails(emails)
 
         } catch (err) {
@@ -44,6 +43,7 @@ export function EmailIndex() {
         }
     }
     function onFilterBy(filterBy) {
+        console.log("filterBy: ", filterBy)
         setFilterBy(filterBy)
     }
 

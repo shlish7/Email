@@ -1,47 +1,4 @@
-/* .app-header {
-    background-color: rgb(227, 231, 234);
 
-    color: black;
-    display: flex;
-    align-items:center;
-    justify-content: space-evenly;
-    height: 70px;
-
-}
-
-.app-header section.container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-
-}
-
-.app-header h1.logo {
-    flex-grow: 1;
-    font-weight: 600;
-}
-
-.app-header .back {
-    flex-grow: 1;
-}
-
-.app-header nav a:not(:last-child) {
-    margin-right: 10px;
-}
-
-.app-header section.container>section {
-    flex-grow: 1;
-}
-
-nav{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1em;
-    color:black;
-
-} */
 
 .app-header{
     display: grid;
@@ -49,7 +6,8 @@ nav{
     grid-template-columns: 1fr 9fr;
     align-items: center;
     justify-items: center;
-    background-color: rgb(227, 231, 234);
+    /* background-color: rgb(227, 231, 234); */
+    background-color:  #f2f6fc;
 
 }
 
@@ -63,4 +21,8 @@ a{
     color:black;
     
 
+}
+
+.gmail-logo{
+    height: 40px;
 }

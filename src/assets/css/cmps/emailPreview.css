@@ -1,70 +1,109 @@
-/* 
 
-
-li{
+.email-preview-li {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+    justify-content: flex-start;
 
-img{
-    height: 15px;
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.link-to-details{
-    display: flex;
-
-    flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(227, 231, 234);
+    border-bottom: 1px solid rgb(227, 231, 234);
+    padding: 10px 10px 10px 10px;
+    list-style-type: none;
     width: 100%;
+
 }
 
-.email-clicked{
-    background-color: rgb(177,213,239);
+.email-clicked {
+    /* background-color: rgb(207, 234, 252); */
+    display: flex;
+    justify-content: flex-start;
+
+    align-items: center;
+    border-top: 1px solid rgb(227, 231, 234);
+    border-bottom: 1px solid rgb(227, 231, 234);
+    padding: 10px 10px 10px 10px;
+    list-style-type: none;
+    width: 100%;
+
+    background-color:  #f2f6fc;
+
+
+}
+
+.link-to-details-read {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 20px;
+    font-family:  "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-size: .875rem;
+    font-weight: lighter;
+
+
+}
+.link-to-details-unread {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 20px;
+    font-weight: bold;
+    font-family:  "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-size: .875rem;
 
 }
 
 span{
-    float: right;
-    text-align: right;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.current-date{
-    padding-right: 20px;
-}
- */
 
 
- 
- li{
-    display: grid;
-    grid-template-columns: 1fr 9fr;
-    justify-content: space-around;
-    align-items: center;
-    border-top:1px solid rgb(227, 231, 234);
-    border-bottom:1px solid rgb(227, 231, 234);
-    padding: 10px 10px 10px 10px ;
-}
-
-li:hover{
- box-shadow: 5px 5px 5px 5px rgb(227, 231, 234);
- 
-}
-
-img{
+.star-image{
     height: 15px;
     margin-right: 10px;
-    margin-left: 10px;
+    margin-left: 10px; 
 }
 
-a{
+.star-icon{
+   color: #ecb900;
+}
+
+
+.email-preview-icons {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
 }
 
-.email-clicked{
-    background-color: rgb(207, 234, 252);
 
+.radio-and-star{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:10px;
+    /* justify-content: center; */
 }
+
+.checkbox-btn {
+    margin-top: 0;
+    height: 15px; /* Make sure the height matches the star image */
+}
+
+.star-image {
+    height: 15px; /* Ensure the star image height is consistent */
+    margin-right: 10px;
+}
+
+
+/* .radio-btn [type="radio"]:checked + .custom-radio::before{
+    content: "";
+    width: 14px;
+    height: 14px;
+    background-color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+}  */

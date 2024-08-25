@@ -1,62 +1,23 @@
-/* *{
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
 
 
-}
-.email-index-section{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
 
-  
-}
-
-.emails-list{
-    height: 100%;
-    width: 100%;
-}
-
-
-li{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border: 0.5px solid lightgray;
-    height: 40px;
-    padding-left: 10px;
-
-}
-
-li:hover{
-    background-color: rgb(177,213,239);
-}
-
-input{
-    padding: 10px;
-    border-radius: 5px;
-} */
-
-* {
+*{
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 
 }
+
 
 .email-index-section {
     display: grid;
+    flex-direction: row;
     grid-template-columns: 1fr   9fr;
-    background-color: rgb(227, 231, 234);
+    height: 100%;
+    width: 100%;
 
 
-}
-
-.emails-list {
-    padding-left: 20px;
-    background-color: white;
-    border-radius: 10px;
-    margin-right: 2px;
 
 }
+
+

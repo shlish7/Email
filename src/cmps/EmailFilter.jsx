@@ -1,11 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faX} from '@fortawesome/free-solid-svg-icons'
 
 function EmailFilter({ filterBy, onFilterBy }) {
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
   const [isRead, setIsRead] = useState(filterBy.isRead)
+  const [isSearch,setIsSearch] = useState()
 
   // Rendering while rendering and filterByToEdit is changing
   useEffect(() => {
@@ -15,6 +16,7 @@ function EmailFilter({ filterBy, onFilterBy }) {
 
   function handleChange({ target }) {
     const { value, name } = target
+    setIsSearch(true)
     setFilterByToEdit(prev => ({ ...prev, [name]: value }))
   }
 
@@ -27,12 +29,24 @@ function EmailFilter({ filterBy, onFilterBy }) {
     setFilterByToEdit(prev => ({ ...prev, ["isRead"]: !isRead }))
   }
 
+  function onChangeSearchIcon({target}){
+    setIsSearch(prev=>!prev)
+    setFilterByToEdit(prev => ({ ...prev, ['txt']: '' }))
+
+
+  }
+
   return <section className='email-filter'>
     {/* <label htmlFor="txt">Subject</label> */}
     <div className="input-container">
-      <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
-      <input
-        value={filterByToEdit.txt}
+      {isSearch ? 
+        <FontAwesomeIcon icon={faX} className='x-icon' onClick={onChangeSearchIcon}/> :
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+        }
+      
+      
+      <input className='search-input'
+        value={isSearch ? filterByToEdit.txt : ''}
         onChange={handleChange}
         id="txt"
         name="txt"

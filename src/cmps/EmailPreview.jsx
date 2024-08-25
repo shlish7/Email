@@ -4,19 +4,21 @@ import EmailDetails from './EmailDetails';
 import whiteStar from '../assets/imgs/whiteStar.png'
 import yellowStar from '../assets/imgs/yellowStar.png'
 import { emailService } from '../services/email.service'
-import envelope from '../assets/imgs/envelope.png'
-import trash from '../assets/imgs/trash.png'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { faEnvelope, faEnvelopeOpen, faTrashCan,faStar } from '@fortawesome/free-regular-svg-icons'
 
 function EmailPreview({ email, onUpdateEmail }) {
 
     const [openDetails, setOpenDetails] = useState(false)
     const [isRead, setIsRead] = useState(email.isRead || false)
-    const [showIcons,setShowIcons] = useState(false)
+    const [showIcons, setShowIcons] = useState(false)
 
     useEffect(() => {
-   
-    }, [isRead,showIcons])
-    
+
+    }, [isRead, showIcons])
+
 
     const date = new Date();
     let day = date.getDate();
@@ -30,53 +32,68 @@ function EmailPreview({ email, onUpdateEmail }) {
     function onOpenEmail() {
         setOpenDetails(prev => !prev)
         setIsRead(true)
-        const update = {...email, isRead: true}
+        const update = { ...email, isRead: true }
         emailService.save(update)
 
 
     }
     function changeStar(e) {
         e.stopPropagation()
+        e.preventDefault()
         const emailToUpdate = { ...email, isStarred: !email.isStarred }
         onUpdateEmail(emailToUpdate)
-   
+
 
     }
 
-    function showEmailIcons(){
-        setShowIcons(prev=>!prev)
+    function showEmailIcons() {
+        setShowIcons(prev => !prev)
     }
 
-    function chagneToUnread(e){
+    function chagneToUnread(e) {
         e.stopPropagation()
         e.preventDefault()
         setIsRead(false)
-        const update = {...email, isRead: false}
+        const update = { ...email, isRead: false }
         emailService.save(update)
     }
 
 
-    
-    function onMoveToTrash(e){
+
+    function onMoveToTrash(e) {
         e.stopPropagation()
         e.preventDefault()
-        const emailToUpdate = { ...email, removedAt:  currentDate}
+        const emailToUpdate = { ...email, removedAt: currentDate }
         onUpdateEmail(emailToUpdate)
     }
 
 
     return (
-        <li onClick={onOpenEmail} onMouseEnter={showEmailIcons} onMouseLeave={showEmailIcons} className={isRead ? 'email-clicked':''}>
-            <img onClick={changeStar} src={email.isStarred ? yellowStar : whiteStar} alt="" />
-            <Link className='link-to-details' to={`/emailDetails/${email.id}`}>
+        // className="email-preview-li"
+        <li onClick={onOpenEmail} onMouseEnter={showEmailIcons} onMouseLeave={showEmailIcons} className={isRead ? 'email-clicked' : 'email-preview-li'}>
+            <section className='radio-and-star'>
+            <input type="checkbox" className='checkbox-btn'/>
+            {/* <FontAwesomeIcon icon={faStar} className="star-icon" /> */}
+            
+            <img onClick={changeStar} src={email.isStarred ? yellowStar : whiteStar} alt="" className='star-image'/>
+            </section>
+            {/* <Link className='link-to-details' to={`/emailDetails/${email.id}`}> */}
+            <Link className={isRead ? 'link-to-details-read' : 'link-to-details-unread'} to={`/emailDetails/${email.id}`}>
+
                 <span className='email-from'>{email.from}</span>
                 <span className='email-subject'>{email.subject}</span>
-               {showIcons &&  <>
-                <img className='envelope-icon' onClick={chagneToUnread} src={envelope} alt="envelope" />
-                <img  className='trash-icon' onClick={onMoveToTrash} src={trash} alt="trash" /></>
-               
-               } 
-               {!showIcons && <span className='email-date'>{currentDate}</span> } 
+                {showIcons && <>
+              
+                    <section className="email-preview-icons">
+                    {!isRead ? < FontAwesomeIcon icon={faEnvelope} className='envelope-icon' onClick={chagneToUnread}/> :
+                    <FontAwesomeIcon icon={faEnvelopeOpen} className='envelope-icon' onClick={chagneToUnread} />
+                    }
+                    <FontAwesomeIcon icon={faTrashCan} className='trash-icon' onClick={onMoveToTrash} />
+                    </section>
+                </>
+
+                }
+                {!showIcons && <span className='email-date'>{currentDate}</span>}
             </Link>
         </li>
 
