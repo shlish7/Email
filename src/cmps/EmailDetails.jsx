@@ -33,7 +33,7 @@ function EmailDetails() {
       <div className='email-details-container'>
         <h1 className='email-subject'>{email.subject}</h1>
         <p className='email-body'>{email.body}</p>
-        <Link to="/emailIndex">Back</Link>
+        <Link to="/">Back</Link>
       </div>     
     </>
   )

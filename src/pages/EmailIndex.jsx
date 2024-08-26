@@ -21,12 +21,12 @@ export function EmailIndex() {
     useEffect(() => {
         
         loadEmails()
-    }, [filterBy, emails])
+    }, [filterBy])
 
     async function loadEmails() {
         try {
             const emails = await emailService.query(filterBy)
-            // console.log("Email Index: " , emails)
+            console.log("Email Index: " , emails)
             setEmails(emails)
 
         } catch (err) {

@@ -17,7 +17,7 @@ export function App() {
         <Router>
                     <Routes>
 
-                        <Route path="/emailIndex" element={<EmailIndex />} />
+                        <Route path="/" element={<EmailIndex />} />
                         <Route path="/emailDetails/:id" element={<EmailDetails />} />
 
                     </Routes>
