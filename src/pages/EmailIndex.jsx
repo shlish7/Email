@@ -72,12 +72,6 @@ export function EmailIndex() {
     { name: 'Trash', icon: faTrashCan }
   ];
 
-    // const emailFolders = [
-    //     { name: 'Inbox', icon: 'faInbox' },
-    //     { name: 'Sent', icon: 'faPaperPlane' },
-    //     { name: 'Star', icon: 'faStar' },
-    //     { name: 'Trash', icon: 'faTrashCan' }
-    //   ];
 
     if (!emails) return <div>Loading...</div>
     return <section className="email-index-section">
