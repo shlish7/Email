@@ -8,20 +8,22 @@ import { AppHeader } from "./cmps/AppHeader"
 import { AppFooter } from "./cmps/AppFooter"
 import EmailDetails from "./cmps/EmailDetails"
 import EmailPreview from "./cmps/EmailPreview"
-
+import { EmailCompose } from "./cmps/EmailCompose"
 
 
 export function App() {
 
     return (
         <Router>
-                    <Routes>
+            <Routes>
 
-                        <Route path="/" element={<EmailIndex />} />
-                        <Route path="/emailDetails/:id" element={<EmailDetails />} />
+                <Route path="/" element={<EmailIndex />} >
+                    <Route path='/Compose/:emailId?' element={<EmailCompose />} />
+                </Route>
+                <Route path="/emailDetails/:id" element={<EmailDetails />} />
 
-                    </Routes>
-     
+            </Routes>
+
         </Router >
 
 

@@ -1,29 +1,67 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
-function EmailCompose() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-  cosnt [sendTo,setSendTo] = useState(null)
-  const [subject,setSubject] = useState(null)
-  const [emailBody, setEmailBody] = useState(null)
-  
-  function onSubmit(){
-    setSendTo()
-    setSubject()
-    
+import { faMinus, faArrowsUpDown, faX } from '@fortawesome/free-solid-svg-icons'
+import { emailService } from '../services/email.service';
+
+
+export function EmailCompose() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState(emailService.createEmail('tst'))
+
+  const  { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = email
+
+  function handleChange({ target }) {
+    let { name: field, value, type } = target
+    switch (type) {
+        case 'number':
+        case 'range':
+            value = +value
+            break;
+        case 'checkbox':
+            value = target.checked
+            break
+        default:
+            break;
+    }
+    setEmail((prevEmail) => ({ ...prevEmail, [field]: value }))
+}
+
+  function onSubmitEmail(ev) {
+    ev.preventDefault()
+    console.log('email: ' ,email)
+  }
+
+  function onCloseModal() {
+    navigate("/")
   }
   return (
-    <div>
-      <form action="">
-        <label for="send To">Send To</label>
-        <input type="text" id="sendTo"  name="sendTo"/>
-        <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject"/>
-        <label for="body">Email Body:</label>
-        <textarea id="mailBody" name="body" rows="4" cols="50"/>
+    <section className='compose-modal-container'>
+      <form className="compose-form" onSubmit={onSubmitEmail}>
+        <section className='compose-box-title'>
+          <span className='compose-span-title'>New Message</span>
+          <section className="modal-icons">
+            <FontAwesomeIcon icon={faMinus} />
+            <FontAwesomeIcon className="arrow-icon" icon={faArrowsUpDown} />
+            <FontAwesomeIcon className="close-modal-icon" icon={faX} onClick={onCloseModal} />
+          </section>
+        </section>
+        <section className='send-to-section'>
+          <span className='send-to-span'>To</span>
+          <input onChange={handleChange} className='send-to-input' type="text" value={to} id="sendTo" name="to" />
+        </section>
+        <section className='send-to-section'>
+          <span className='subject-span'>Subject</span>
+          <input onChange={handleChange} className='subject-input' type="text" value={subject} id="subject" name="subject" />
+        </section>
+        <textarea onChange={handleChange} className='body-input' value={body} id="mailBody" name="body" rows="4" cols="50" />
+        <button className='send-btn'>Send</button>
       </form>
-    </div>
+    </section>
+
 
   )
 }
 
-export default EmailCompose
