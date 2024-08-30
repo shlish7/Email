@@ -8,6 +8,7 @@ import { emailService } from '../services/email.service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faEnvelope, faEnvelopeOpen, faTrashCan,faStar } from '@fortawesome/free-regular-svg-icons'
+import { utilService } from '../services/util.service';
 
 function EmailPreview({ email, onUpdateEmail }) {
 
@@ -19,15 +20,7 @@ function EmailPreview({ email, onUpdateEmail }) {
 
     }, [isRead, showIcons])
 
-
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1
-    let year = date.getFullYear()
-    let hour = date.getHours()
-    let minute = date.getHours()
-    let seconds = date.getHours()
-    let currentDate = `${day}-${month}-${year} ${hour}:${minute}:${seconds}`
+    const currentDate = utilService.currentDateTime()
 
     function onOpenEmail() {
         setOpenDetails(prev => !prev)
@@ -93,7 +86,7 @@ function EmailPreview({ email, onUpdateEmail }) {
                 </>
 
                 }
-                {!showIcons && <span className='email-date'>{currentDate}</span>}
+                {!showIcons && <span className='email-date'>{email.sentAt}</span>}
             </Link>
         </li>
 

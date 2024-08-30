@@ -18,14 +18,15 @@ export function EmailIndex() {
     const defaultFilter = emailService.getDefaultFilter()
 
     const [emails, setEmails] = useState([])
+    const [unreadCount, setUnreadCount] = useState()
     const [searchParam, setSearchParam] = useSearchParams()
     const [filterBy, setFilterBy] = useState(emailService.getFilterFromSearchParams(searchParam))
 
 
     useEffect(() => {
         // console.log(searchParam.get('status'))
-        console.log(searchParam.get('inbox'))
         const status = searchParam.get('status') || 'inbox'
+        console.log(searchParam.get('inbox'))
 
         if (searchParam) setFilterBy(prev => ({ ...prev, status: status }))
 
@@ -36,15 +37,15 @@ export function EmailIndex() {
         loadEmails()
         setSearchParam(utilService.getExistingProperties(filterBy))
 
-    }, [filterBy])
+    }, [filterBy,unreadCount])
 
     async function loadEmails() {
         try {
-            console.log("filterBy: ", filterBy)
-
+            console.log(filterBy)
             const emails = await emailService.query(filterBy)
-            console.log("Email Index: ", emails)
             setEmails(emails)
+            unreadCountEmails(emails)
+
 
         } catch (err) {
             console.log(err)
@@ -56,30 +57,69 @@ export function EmailIndex() {
         try {
             await emailService.remove(emailId)
             setEmails(email => emails.filter(email => email.id !== emailId))
+            unreadCountEmails(emails)
+
         } catch (err) {
             console.log(err)
             alert('Couldnt remove email')
         }
     }
     function onFilterBy(filterBy) {
-        // console.log("filterBy: ", filterBy)
         setFilterBy(filterBy)
+        unreadCountEmails(emails)
+
     }
 
     async function onUpdateEmail(email) {
         try {
             const updatedEmail = await emailService.save(email)
+            // const updatedEmails = emails.map(email => email.id === savedEmail.id ? savedEmail : email)
+
             setEmails(prevEmails => prevEmails.map(email => {
-                if (email.id === updatedEmail.id) return updatedEmail
+                if (email.id === updatedEmail.id) {
+                    // unreadCountEmails(updatedEmails)
+                    return updatedEmail
+
+
+                } 
                 else { return email }
             }))
         }
         catch (err) {
             console.log(err)
-            alert('Couldnt move email trash')
+            alert('Couldnt move email to trash')
 
         }
 
+    }
+
+    async function onSaveEmail(email) {
+        try {
+            const emailToSave = await emailService.save(email)
+            console.log('emailToSave: ', emailToSave)
+            console.log('email.id: ', email.id)
+            if (!email.id) {
+                setEmails(emails => [...emails, emailToSave])
+            }
+            else {
+                setEmails(emails => emails.map(_email => {
+                    _email.id === emailToSave.id ? emailToSave : _email
+                    console.log('_email: ', _email)
+                }
+
+                ))
+            }
+        } catch (err) {
+            console.log(err)
+            alert('Couldnt sent email')
+
+        }
+    }
+
+    function unreadCountEmails(emails) {
+        const emailsCount = emails.filter(email => !email.isRead).length
+        console.log('emailsCount: ', emailsCount)
+        setUnreadCount(emailsCount)
     }
 
     const emailFolders = [
@@ -108,17 +148,17 @@ export function EmailIndex() {
             </Link>
 
 
-            <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy} emailFolders={emailFolders} />
+            <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy} emailFolders={emailFolders} unreadEmailsCount={unreadCount} />
 
         </aside>
         <main className="emails-list">
-            <EmailList emails={emails} onRemove={removeEmail} onUpdateEmail={onUpdateEmail} filterBy={filterBy} />
+            <EmailList emails={emails} onRemove={removeEmail} onUpdateEmail={onUpdateEmail} filterBy={filterBy}  />
 
         </main>
         <aside className="email-index-right-aside">
 
         </aside>
-        <Outlet/>
+        <Outlet context={{ onSaveEmail }} />
 
     </section>
 

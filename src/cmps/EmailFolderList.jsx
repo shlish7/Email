@@ -6,11 +6,10 @@ import { faInbox, faFile } from '@fortawesome/free-solid-svg-icons'
 import gmailLogo from '../assets/imgs/gmailLogo.png'
 
 
-export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) {
+export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unreadEmailsCount }) {
 
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-  // const [activeFolder, setActiveFolder] = useState()
-
+  console.log('unreadEmailsCount: ', unreadEmailsCount)
 
 
   useEffect(() => {
@@ -24,8 +23,13 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) 
 
     // console.log("textContent: ", textContent.toLowerCase().trim())
 
-    setFilterByToEdit(prev => ({ ...prev, status: textContent.toLowerCase().trim() }))
-    // setActiveFolder(textContent.toLowerCase().trim())
+    // setFilterByToEdit(prev => ({ ...prev, status: textContent.toLowerCase().trim() }))
+        console.log("target.dataset.folder: ", target.dataset.folder)
+
+    if (target.dataset.folder) {
+      const folderName = target.dataset.folder.toLowerCase().trim();
+      setFilterByToEdit((prev) => ({ ...prev, status: folderName }));
+    }
 
   }
 
@@ -42,10 +46,15 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders }) 
             return <li className={`folder-li ${filterBy.status === folder.name.toLowerCase() ? 'active' : ''}`}  key={idx} onClick={onChooseFolder}>
             {/* return <li className="folder-li" key={idx} onClick={onChooseFolder}> */}
               <FontAwesomeIcon icon={folder.icon} className="folder-icons" />
-              <h4
+              <h4  data-folder={folder.name}
                 className={`folder-name ${filterBy.status === folder.name.toLowerCase() ? 'active' : ''}`}              
                 >
                   {folder.name}</h4>
+                  
+                  {/* {folder.name.toLowerCase()==='inbox' ? <h4>{unreadEmailsCount}</h4> :''} */}
+                  {folder.name.toLowerCase() === 'inbox' && (
+                <h4>{unreadEmailsCount}</h4>
+              )}
 
             </li>
           })

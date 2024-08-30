@@ -7,7 +7,7 @@ function EmailList({emails, onRemove, onUpdateEmail, filterBy}) {
             <ul className="email-list-ul">
             {emails.map(email => (
                 <div key={email.id} className='email-item'>
-                     <EmailPreview email={email}  key={email.id} onUpdateEmail={onUpdateEmail}/>
+                     <EmailPreview email={email}  key={email.id} onUpdateEmail={onUpdateEmail} />
                      { filterBy.status.toLowerCase()=== 'trash' &&<button onClick={() => onRemove(email.id)}>Remove</button>}
 
 

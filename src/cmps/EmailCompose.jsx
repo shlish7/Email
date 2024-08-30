@@ -1,37 +1,42 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faMinus, faArrowsUpDown, faX } from '@fortawesome/free-solid-svg-icons'
 import { emailService } from '../services/email.service';
+import { utilService } from '../services/util.service';
 
 
 export function EmailCompose() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(emailService.createEmail('tst'))
+  const [email, setEmail] = useState(emailService.createEmail())
+  const { onSaveEmail } = useOutletContext()
 
-  const  { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = email
+  const currentDate = utilService.currentDateTime()
+
+  const { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = email
 
   function handleChange({ target }) {
     let { name: field, value, type } = target
     switch (type) {
-        case 'number':
-        case 'range':
-            value = +value
-            break;
-        case 'checkbox':
-            value = target.checked
-            break
-        default:
-            break;
+      case 'number':
+      case 'range':
+        value = +value
+        break;
+      case 'checkbox':
+        value = target.checked
+        break
+      default:
+        break;
     }
-    setEmail((prevEmail) => ({ ...prevEmail, [field]: value }))
-}
+    setEmail((prevEmail) => ({ ...prevEmail, [field]: value, sentAt: currentDate, from: 'sharon@gmail.com' }))
+  }
 
   function onSubmitEmail(ev) {
     ev.preventDefault()
-    console.log('email: ' ,email)
+    console.log('email: ', email)
+    onSaveEmail(email)
   }
 
   function onCloseModal() {

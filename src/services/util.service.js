@@ -3,7 +3,8 @@ export const utilService = {
     makeId,
     saveToStorage,
     loadFromStorage,
-    getExistingProperties
+    getExistingProperties,
+    currentDateTime
 }
 
 function makeId(length = 5) {
@@ -33,4 +34,17 @@ function loadFromStorage(key, defaultValue = null) {
         }
     }
     return truthyObj
+}
+
+function currentDateTime(){
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1
+    let year = date.getFullYear()
+    let hour = date.getHours()
+    let minute = date.getHours()
+    let seconds = date.getHours()
+    let currentDate = `${day}-${month}-${year} ${hour}:${minute}:${seconds}`
+    
+    return currentDate
 }
