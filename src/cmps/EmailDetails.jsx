@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { emailService } from '../services/email.service'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router'
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 
 function EmailDetails() {
@@ -20,7 +21,7 @@ function EmailDetails() {
 
     } catch (err) {
       console.log(err)
-      alert('Couldnt load the email')
+      showErrorMsg('Couldnt load the email')
     }
   }
 

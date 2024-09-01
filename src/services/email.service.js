@@ -23,9 +23,10 @@ _createUsers()
 async function query(filterBy) {
     try {
         let emails = await storageService.query(STORAGE_KEY)
+        // console.log('emails',emails);
         if (filterBy) {
             let { status = '', txt = '', isRead = null } = filterBy
-            console.log(filterBy)
+            // console.log(filterBy)
             emails = emails.filter(email => {
                 return (isRead === null || isRead ==='' || email.isRead === isRead) &&
                     (          
@@ -36,10 +37,11 @@ async function query(filterBy) {
                     )
             })
       
+            // console.log('emails',emails);
     
             const filters = {
                 inbox: email => (email.to === 'user@appsus.com' || email.to === 'sharon@gmail.com') && email.removedAt === null,
-                sent: email => (email.to === 'sharon@gmail.com'  ) && email.removedAt === null,
+                sent: email =>  !email.removedAt && email.sentAt,
                 // sent: email => email.to === 'sharon@gmail.com' && email.removedAt === null,
                 star: email => email.isStarred === true && email.removedAt === null,
                 trash: email => !!email.removedAt
@@ -47,6 +49,8 @@ async function query(filterBy) {
     
             return status ? emails.filter(filters[status]) : emails;
         }
+        // console.log('emails servie',emails);
+
         return emails
     } catch (err) {
         console.error('Failed to fetch emails:', err);
@@ -181,7 +185,7 @@ function _createEmails() {
             "body": "Welcome to our service! We're glad to have you with us.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1673725503362,
+            "sentAt": "24-08-2024 08:13:24",
             "removedAt": null,
             "from": "sharon@gmail.com",
             "to": "sharon@gmail.com"
@@ -192,7 +196,7 @@ function _createEmails() {
             "body": "Your feedback is important to us. Please take a moment to complete our survey.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1691869503362,
+            "sentAt": "02-07-2024 15:24:08",
             "removedAt": null,
             "from": "user89@webmail.com",
             "to": "user@appsus.com"
@@ -203,7 +207,7 @@ function _createEmails() {
             "body": "We are pleased to inform you that your payment has been received.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1697399103362,
+            "sentAt": "13-06-2024 09:54:33",
             "removedAt": null,
             "from": "user36@appsus.com",
             "to": "user@appsus.com"
@@ -214,7 +218,7 @@ function _createEmails() {
             "body": "We have an important update regarding your account.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1700423103362,
+            "sentAt": "01-01-2023 11:21:53",
             "removedAt": null,
             "from": "user99@example.com",
             "to": "user@appsus.com"
@@ -225,7 +229,7 @@ function _createEmails() {
             "body": "We are excited to announce our new product lineup.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1662234303362,
+            "sentAt": "14-08-2024 17:03:34",
             "removedAt": null,
             "from": "user43@service.com",
             "to": "user@appsus.com"
@@ -236,7 +240,7 @@ function _createEmails() {
             "body": "Your order has been processed and will be delivered soon.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1695584703362,
+            "sentAt": "14-06-2024 05:11:43",
             "removedAt": null,
             "from": "user53@appsus.com",
             "to": "user@appsus.com"
@@ -247,7 +251,7 @@ function _createEmails() {
             "body": "Your membership has been renewed successfully.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1713555903362,
+            "sentAt": "20-06-2024 20:45:03",
             "removedAt": null,
             "from": "user98@example.com",
             "to": "user@appsus.com"
@@ -258,7 +262,7 @@ function _createEmails() {
             "body": "We are excited to announce our new product lineup.",
             "isRead": false,
             "isStarred": false,
-            "sentAt": 1691869503362,
+            "sentAt": "15-07-2024 18:24:23",
             "removedAt": null,
             "from": "user45@webmail.com",
             "to": "user@appsus.com"
@@ -269,7 +273,7 @@ function _createEmails() {
             "body": "We noticed unusual activity on your account. Please verify your identity.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1683792303362,
+            "sentAt": "11-08-2024 10:05:03",
             "removedAt": null,
             "from": "user74@company.com",
             "to": "user@appsus.com"
@@ -280,7 +284,7 @@ function _createEmails() {
             "body": "We would love to get your feedback on our latest product.",
             "isRead": false,
             "isStarred": false,
-            "sentAt": 1667250303362,
+            "sentAt": "22-04-2024 21:12:31",
             "removedAt": null,
             "from": "user50@example.com",
             "to": "user@appsus.com"
@@ -291,7 +295,7 @@ function _createEmails() {
             "body": "We appreciate your business and hope to serve you again soon.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1695584703362,
+            "sentAt": "14-06-2024 05:11:43",
             "removedAt": null,
             "from": "user29@company.com",
             "to": "user@appsus.com"
@@ -302,7 +306,7 @@ function _createEmails() {
             "body": "Please update your profile to ensure you receive the latest updates.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1703108703362,
+            "sentAt": "29-09-2024 15:05:03",
             "removedAt": null,
             "from": "user36@company.com",
             "to": "user@appsus.com"
@@ -313,7 +317,7 @@ function _createEmails() {
             "body": "We have some exciting news to share with you!",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1665662703362,
+            "sentAt": "13-05-2024 13:05:03",
             "removedAt": null,
             "from": "user61@service.com",
             "to": "user@appsus.com"
@@ -324,7 +328,7 @@ function _createEmails() {
             "body": "Thank you for being a valued customer. Here's a special offer just for you.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1668962703362,
+            "sentAt": "23-03-2024 11:45:32",
             "removedAt": null,
             "from": "user95@service.com",
             "to": "user@appsus.com"
@@ -335,7 +339,7 @@ function _createEmails() {
             "body": "Your appointment is confirmed. We look forward to seeing you.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1710157503362,
+            "sentAt": "20-08-2024 14:45:03",
             "removedAt": null,
             "from": "user24@webmail.com",
             "to": "user@appsus.com"
@@ -346,7 +350,7 @@ function _createEmails() {
             "body": "Please find the attached document for your reference.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1709828703362,
+            "sentAt": "25-04-2024 16:45:23",
             "removedAt": null,
             "from": "user12@appsus.com",
             "to": "user@appsus.com"
@@ -357,7 +361,7 @@ function _createEmails() {
             "body": "Don't miss out on this limited-time offer.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1683792303362,
+            "sentAt": "11-08-2024 10:05:03",
             "removedAt": null,
             "from": "user49@company.com",
             "to": "user@appsus.com"
@@ -368,7 +372,7 @@ function _createEmails() {
             "body": "Thank you for registering for our conference. We look forward to seeing you there.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1716918303362,
+            "sentAt": "26-06-2024 21:50:17",
             "removedAt": null,
             "from": "user13@webmail.com",
             "to": "user@appsus.com"
@@ -379,7 +383,7 @@ function _createEmails() {
             "body": "We noticed a new comment on your post. Please check it out.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1709070303362,
+            "sentAt": "29-07-2024 10:09:56",
             "removedAt": null,
             "from": "user14@appsus.com",
             "to": "user@appsus.com"
@@ -390,7 +394,7 @@ function _createEmails() {
             "body": "We are excited to announce our new product lineup.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1684845903362,
+            "sentAt": "09-06-2024 09:25:12",
             "removedAt": null,
             "from": "user52@webmail.com",
             "to": "user@appsus.com"
@@ -401,7 +405,7 @@ function _createEmails() {
             "body": "Please find the attached warranty information for your records.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1681002303362,
+            "sentAt": "10-05-2024 18:45:32",
             "removedAt": null,
             "from": "user20@service.com",
             "to": "user@appsus.com"
@@ -412,9 +416,9 @@ function _createEmails() {
             "body": "Please confirm your subscription to our newsletter.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1673389503362,
+            "sentAt": "12-02-2024 11:35:20",
             "removedAt": null,
-            "from": "user64@appsus.com",
+            "from": "user10@webmail.com",
             "to": "user@appsus.com"
         },
         {
@@ -423,7 +427,7 @@ function _createEmails() {
             "body": "We have received your request and are working on it.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1709828703362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user58@example.com",
             "to": "user@appsus.com"
@@ -434,7 +438,7 @@ function _createEmails() {
             "body": "Please take a moment to review the attached invoice.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1701452703362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user59@service.com",
             "to": "user@appsus.com"
@@ -445,7 +449,7 @@ function _createEmails() {
             "body": "Your subscription will expire soon. Please renew to continue enjoying our services.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1662606303362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user92@webmail.com",
             "to": "user@appsus.com"
@@ -456,7 +460,7 @@ function _createEmails() {
             "body": "We are excited to announce our new product lineup.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1671685503362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user75@company.com",
             "to": "user@appsus.com"
@@ -467,7 +471,7 @@ function _createEmails() {
             "body": "Don't forget to attend the meeting scheduled for tomorrow.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1707752703362,
+            "sentAt": "14-12-2024 19:35:20",
             "removedAt": null,
             "from": "user83@example.com",
             "to": "user@appsus.com"
@@ -478,7 +482,7 @@ function _createEmails() {
             "body": "Your feedback is important to us. Please take a moment to complete our survey.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1705331103362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user86@company.com",
             "to": "user@appsus.com"
@@ -489,7 +493,7 @@ function _createEmails() {
             "body": "We would love to get your feedback on our latest product.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1670343903362,
+            "sentAt": "16-05-2016 23:39:20",
             "removedAt": null,
             "from": "user68@appsus.com",
             "to": "user@appsus.com"
@@ -500,7 +504,7 @@ function _createEmails() {
             "body": "We appreciate your business and hope to serve you again soon.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1691247903362,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user38@service.com",
             "to": "user@appsus.com"
@@ -511,7 +515,7 @@ function _createEmails() {
             "body": "Thank you for registering for our conference. We look forward to seeing you there.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1666856703362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user91@company.com",
             "to": "user@appsus.com"
@@ -522,7 +526,7 @@ function _createEmails() {
             "body": "We received a request to reset your password. Please follow the instructions to proceed.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1690674303362,
+            "sentAt": null,
             "removedAt": null,
             "from": "user63@example.com",
             "to": "user@appsus.com"
@@ -533,7 +537,7 @@ function _createEmails() {
             "body": "Please take a moment to verify your email address.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1705875903362,
+            "sentAt": "11-03-2005 09:41:20",
             "removedAt": null,
             "from": "user72@appsus.com",
             "to": "user@appsus.com"
@@ -544,7 +548,7 @@ function _createEmails() {
             "body": "We have a special gift just for you. Please redeem it within 30 days.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1692480303362,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user27@service.com",
             "to": "user@appsus.com"
@@ -555,7 +559,7 @@ function _createEmails() {
             "body": "We noticed unusual activity on your account. Please verify your identity.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1679708703362,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user51@company.com",
             "to": "user@appsus.com"
@@ -566,7 +570,7 @@ function _createEmails() {
             "body": "We appreciate your business and hope to serve you again soon.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1701169503363,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user20@webmail.com",
             "to": "user@appsus.com"
@@ -577,7 +581,7 @@ function _createEmails() {
             "body": "We noticed unusual activity on your account. Please verify your identity.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1710032703363,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user28@appsus.com",
             "to": "user@appsus.com"
@@ -588,7 +592,7 @@ function _createEmails() {
             "body": "Please find the attached document for your reference.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1709768703363,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user62@example.com",
             "to": "user@appsus.com"
@@ -599,7 +603,7 @@ function _createEmails() {
             "body": "Please take a moment to review the attached invoice.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1676816703363,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user73@company.com",
             "to": "user@appsus.com"
@@ -610,7 +614,7 @@ function _createEmails() {
             "body": "Please confirm your attendance at the upcoming event.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1716308703363,
+            "sentAt": "14-12-2018 20:39:20",
             "removedAt": null,
             "from": "user26@service.com",
             "to": "user@appsus.com"
@@ -621,7 +625,7 @@ function _createEmails() {
             "body": "We are pleased to inform you that your payment has been received.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1714679103363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user83@example.com",
             "to": "user@appsus.com"
@@ -632,7 +636,7 @@ function _createEmails() {
             "body": "Your feedback is crucial to us. Please let us know your thoughts.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1718726703363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user74@company.com",
             "to": "user@appsus.com"
@@ -643,7 +647,7 @@ function _createEmails() {
             "body": "We are excited to announce our new product lineup.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1724183103363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user34@service.com",
             "to": "user@appsus.com"
@@ -654,7 +658,7 @@ function _createEmails() {
             "body": "Please review your order details and confirm.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1692474303363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user85@company.com",
             "to": "user@appsus.com"
@@ -665,7 +669,7 @@ function _createEmails() {
             "body": "Your appointment is confirmed. We look forward to seeing you.",
             "isRead": true,
             "isStarred": false,
-            "sentAt": 1711575903363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user21@webmail.com",
             "to": "user@appsus.com"
@@ -676,7 +680,7 @@ function _createEmails() {
             "body": "Please take a moment to complete the attached survey.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1716435903363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user15@example.com",
             "to": "user@appsus.com"
@@ -687,7 +691,7 @@ function _createEmails() {
             "body": "Your feedback is crucial to us. Please let us know your thoughts.",
             "isRead": false,
             "isStarred": false,
-            "sentAt": 1718726703363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user90@service.com",
             "to": "user@appsus.com"
@@ -698,7 +702,7 @@ function _createEmails() {
             "body": "Please update your payment information to continue using our service.",
             "isRead": true,
             "isStarred": true,
-            "sentAt": 1716534303363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user60@webmail.com",
             "to": "user@appsus.com"
@@ -709,7 +713,7 @@ function _createEmails() {
             "body": "Thank you for being a valued customer. Here's a special offer just for you.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1712189103363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user82@example.com",
             "to": "user@appsus.com"
@@ -720,7 +724,7 @@ function _createEmails() {
             "body": "We noticed unusual activity on your account. Please verify your identity.",
             "isRead": false,
             "isStarred": true,
-            "sentAt": 1710157503363,
+            "sentAt": null,
             "removedAt": null,
             "from": "user64@company.com",
             "to": "user@appsus.com"

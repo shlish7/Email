@@ -9,11 +9,13 @@ import { AppFooter } from "./cmps/AppFooter"
 import EmailDetails from "./cmps/EmailDetails"
 import EmailPreview from "./cmps/EmailPreview"
 import { EmailCompose } from "./cmps/EmailCompose"
+import { UserMessage } from "./cmps/UserMessage"
 
 
 export function App() {
 
     return (
+        <>
         <Router>
             <Routes>
 
@@ -26,7 +28,8 @@ export function App() {
 
         </Router >
 
-
+        <UserMessage/>
+        </>
 
     )
 }

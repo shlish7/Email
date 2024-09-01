@@ -40,6 +40,6 @@ button{
 
 
 .email-list{
-    overflow-y: auto; 
+    /* overflow-y: auto;  */
     /* Allows the content inside the main container to scroll if it overflows */
 }

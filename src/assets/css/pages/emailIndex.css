@@ -43,7 +43,8 @@
 }
 .emails-list{
     grid-area: main;
-    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-y: auto; 
+    /* Enables vertical scrolling */
     /* padding: 10px; */
      /* Optional: Add padding for better spacing */
 

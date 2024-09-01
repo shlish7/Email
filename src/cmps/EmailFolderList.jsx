@@ -6,30 +6,24 @@ import { faInbox, faFile } from '@fortawesome/free-solid-svg-icons'
 import gmailLogo from '../assets/imgs/gmailLogo.png'
 
 
-export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unreadEmailsCount }) {
+export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unreadEmailsCount, }) {
 
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-  console.log('unreadEmailsCount: ', unreadEmailsCount)
-
-
+  
+  // console.log('unreadEmailsCount: ', unreadEmailsCount)
   useEffect(() => {
     onFilterBy(filterByToEdit)
   }, [filterByToEdit])
 
-
-
   function onChooseFolder({ target }) {
     const { value, name, textContent } = target
-
-    // console.log("textContent: ", textContent.toLowerCase().trim())
-
-    // setFilterByToEdit(prev => ({ ...prev, status: textContent.toLowerCase().trim() }))
         console.log("target.dataset.folder: ", target.dataset.folder)
 
     if (target.dataset.folder) {
       const folderName = target.dataset.folder.toLowerCase().trim();
       setFilterByToEdit((prev) => ({ ...prev, status: folderName }));
     }
+    onFolderChange(folderName)
 
   }
 
@@ -50,8 +44,6 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unr
                 className={`folder-name ${filterBy.status === folder.name.toLowerCase() ? 'active' : ''}`}              
                 >
                   {folder.name}</h4>
-                  
-                  {/* {folder.name.toLowerCase()==='inbox' ? <h4>{unreadEmailsCount}</h4> :''} */}
                   {folder.name.toLowerCase() === 'inbox' && (
                 <h4>{unreadEmailsCount}</h4>
               )}
