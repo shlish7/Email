@@ -5,6 +5,7 @@ function createEventEmitter() {
         //* Use this function to subscribe to an event
         on(evName, listener) {
             listenersMap[evName] = (listenersMap[evName]) ? [...listenersMap[evName], listener] : [listener]
+
             return () => {
                 listenersMap[evName] = listenersMap[evName].filter(func => func !== listener)
             }
@@ -12,6 +13,8 @@ function createEventEmitter() {
 
         //* Use this function to emit an event
         emit(evName, data) {
+            // console.log('evName: ', evName," data: ", data )
+
             if (!listenersMap[evName]) return
             listenersMap[evName].forEach(listener => listener(data))
         }
@@ -21,14 +24,18 @@ function createEventEmitter() {
 export const eventBusService = createEventEmitter()
 
 function showUserMsg(msg) {
+    // console.log('showUserMsg: ', msg)
     eventBusService.emit('show-user-msg', msg)
 }
 
 export function showSuccessMsg(txt) {
+    // console.log(txt)
     showUserMsg({ txt, type: 'success' })
 }
 
 export function showErrorMsg(txt) {
+    // console.log('showErrorMsg: ', txt)
+
     showUserMsg({ txt, type: 'error' })
 }
 

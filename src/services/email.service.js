@@ -8,11 +8,15 @@ export const emailService = {
     save,
     createEmail,
     getDefaultFilter,
-    getFilterFromSearchParams
+    getFilterFromSearchParams,
+    getUnreadCountEmails
 
 }
 
 const STORAGE_KEY = 'emails'
+const loginUser = 'sharon@gmail.com'
+const loginUser2 = 'user@appsus.com'
+
 
 _createEmails()
 _createUsers()
@@ -110,6 +114,16 @@ function save(emailToSave) {
         console.log('post', emailToSave)
         return storageService.post(STORAGE_KEY, emailToSave)
     }
+}
+
+async function getUnreadCountEmails(){
+    const emails = await storageService.query(STORAGE_KEY)
+    // console.log('emails Service',emails);
+
+    return emails.filter(email=> !email.isRead && (email.to ===loginUser || email.to===loginUser2 )).length
+    // console.log('x: ',x)
+     
+
 }
 
 

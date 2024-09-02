@@ -27,17 +27,21 @@ export function EmailIndex() {
     const [sortBy, setSortBy] = useState({ key: 'date', direction: 'desc' })
 
 
-
     useEffect(() => {
-        // console.log(searchParam.get('status'))
         const status = searchParam.get('status') || 'inbox'
-        console.log(searchParam.get('inbox'))
         if (searchParam) setFilterBy(prev => ({ ...prev, status: status }))
         
 
     }, [])
 
     useEffect(() => {
+        // console.log('useEff emails: ',emails);
+        // unreadCountEmails(emails)
+        unreadCountEmails()
+    },[emails])
+
+    useEffect(() => {
+
         new URLSearchParams()
         loadEmails()
         setSearchParam(utilService.getExistingProperties(filterBy))
@@ -47,12 +51,12 @@ export function EmailIndex() {
 
     async function loadEmails() {
         try {
-            console.log(filterBy)
             const emails = await emailService.query(filterBy)
             sortEmails(emails)
 
             setEmails(emails)
-            unreadCountEmails(emails)
+            // unreadCountEmails(emails)
+            // console.log(tst)
 
 
         } catch (err) {
@@ -65,7 +69,7 @@ export function EmailIndex() {
         try {
             await emailService.remove(emailId)
             setEmails(email => emails.filter(email => email.id !== emailId))
-            unreadCountEmails(emails)
+            // unreadCountEmails(emails)
             showSuccessMsg('Email removed successfully')
 
         } catch (err) {
@@ -77,13 +81,14 @@ export function EmailIndex() {
     async function onUpdateEmail(email) {
         try {
             const updatedEmail = await emailService.save(email)
-            setEmails(prevEmails => prevEmails.map(email => {
+            
+            setEmails(prevEmails =>prevEmails.map(email => {
                 if (email.id === updatedEmail.id) {
                     return updatedEmail
                 } 
                 else { return email }
             }))
-           unreadCountEmails(emails)
+        //    unreadCountEmails(emails)
 
         }
         catch (err) {
@@ -97,15 +102,13 @@ export function EmailIndex() {
     async function onSaveEmail(email) {
         try {
             const emailToSave = await emailService.save(email)
-            console.log('emailToSave: ', emailToSave)
-            console.log('email.id: ', email.id)
+
             if (!email.id) {
                 setEmails(emails => [...emails, emailToSave])
             }
             else {
                 setEmails(emails => emails.map(_email => {
                     _email.id === emailToSave.id ? emailToSave : _email
-                    console.log('_email: ', _email)
                 }
 
                 ))
@@ -117,20 +120,36 @@ export function EmailIndex() {
         }
     }
 
-    function unreadCountEmails(emails, activeFolder) {
+    // function unreadCountEmails(emails) {
+    //     // console.log('emails: ', emails);
+    //     // if(filterBy.status==='inbox'){
+    //     //     const emailsCount = emails.filter(email => !email.isRead).length
+    //     //     setUnreadCount(emailsCount)
+    //     //     //setEmails(emails)
+    //     // }
         
-        if(filterBy.status==='inbox'){
-            const emailsCount = emails.filter(email => !email.isRead).length
-            console.log('emailsCount: ', emailsCount)
-    
-            setUnreadCount(emailsCount)
-        }
+    //     const emailsCount = emails.filter(email => !email.isRead ).length
+    //     setUnreadCount(emailsCount)
 
         
+    // }
+
+   async function unreadCountEmails(){
+        try {
+             const  unreadEmails = await emailService.getUnreadCountEmails()
+             console.log('unreadEmails',unreadEmails);
+
+            setUnreadCount(unreadEmails)
+
+        } catch (error) {
+            showErrorMsg('couldnt fetch unread emails')
+        }
     }
 
-    function handleFolderChange(){
+    function handleFolderChange(folderName){
         setFilterBy(prev => ({ ...prev, status: folderName }))
+        setActiveFolder(folderName)
+
     }
 
     const emailFolders = [
@@ -144,15 +163,13 @@ export function EmailIndex() {
 
     function onFilterBy(filterBy) {
         setFilterBy(filterBy)
-        // unreadCountEmails(emails)
 
     }
 
     function sortEmails(emails) {
         const sortedEmails = [...emails].sort((a, b) => {
             if (sortBy.key === 'date') {
-                // console.log(new Date(a.sentAt))
-                // console.log('subject',a.subject.localeCompare(b.subject))
+  
                 return sortBy.direction === 'asc' ? new Date(a.sentAt) - new Date(b.sentAt) : new Date(b.sentAt) - new Date(a.sentAt)
             } else if (sortBy.key === 'subject') {
                 return sortBy.direction === 'asc' ? a.subject.localeCompare(b.subject) : b.subject.localeCompare(a.subject)
@@ -184,7 +201,7 @@ export function EmailIndex() {
             </Link>
 
 
-            <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy} emailFolders={emailFolders} unreadEmailsCount={unreadCount} onFolderChange={handleFolderChange} />
+            <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy} emailFolders={emailFolders} unreadCount={unreadCount} onFolderChange={handleFolderChange} />
 
         </aside>
         <main className="emails-list">

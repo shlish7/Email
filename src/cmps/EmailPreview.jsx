@@ -48,7 +48,8 @@ function EmailPreview({ email, onUpdateEmail }) {
         e.preventDefault()
         setIsRead(false)
         const update = { ...email, isRead: false }
-        emailService.save(update)
+        // emailService.save(update)
+        onUpdateEmail(update)
     }
 
 

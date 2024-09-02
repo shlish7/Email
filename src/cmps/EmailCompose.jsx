@@ -55,7 +55,7 @@ export function EmailCompose() {
         </section>
         <section className='send-to-section'>
           <span className='send-to-span'>To</span>
-          <input onChange={handleChange} className='send-to-input' type="text" value={to} id="sendTo" name="to" />
+          <input onChange={handleChange} className='send-to-input' type="email" value={to} id="sendTo" name="to" />
         </section>
         <section className='send-to-section'>
           <span className='subject-span'>Subject</span>

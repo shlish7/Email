@@ -6,11 +6,11 @@ import { faInbox, faFile } from '@fortawesome/free-solid-svg-icons'
 import gmailLogo from '../assets/imgs/gmailLogo.png'
 
 
-export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unreadEmailsCount, }) {
+export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unreadCount, onFolderChange}) {
 
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-  
-  // console.log('unreadEmailsCount: ', unreadEmailsCount)
+
+
   useEffect(() => {
     onFilterBy(filterByToEdit)
   }, [filterByToEdit])
@@ -20,10 +20,12 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unr
         console.log("target.dataset.folder: ", target.dataset.folder)
 
     if (target.dataset.folder) {
-      const folderName = target.dataset.folder.toLowerCase().trim();
-      setFilterByToEdit((prev) => ({ ...prev, status: folderName }));
+      const folderName = target.dataset.folder.toLowerCase().trim()
+      setFilterByToEdit((prev) => ({ ...prev, status: folderName }))
+
+      onFolderChange(folderName)
+
     }
-    onFolderChange(folderName)
 
   }
 
@@ -45,7 +47,7 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unr
                 >
                   {folder.name}</h4>
                   {folder.name.toLowerCase() === 'inbox' && (
-                <h4>{unreadEmailsCount}</h4>
+                <h4>{unreadCount}</h4>
               )}
 
             </li>
