@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate, useOutletContext } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useSearchParams ,useNavigate, useOutletContext } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -12,10 +12,31 @@ export function EmailCompose() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(emailService.createEmail())
   const { onSaveEmail } = useOutletContext()
+  const [searchParam, setSearchParam] = useSearchParams()
+
+
+  useEffect(() => {
+    const status = searchParam.get('status')
+    const sendTo = searchParam.get('to')
+    const subject = searchParam.get('subject')   
+    
+    if (sendTo || subject) {
+      setEmail((prevEmail) => ({
+        ...prevEmail,
+        to: sendTo || prevEmail.to,
+        subject: subject || prevEmail.subject,
+      }))
+    }
+
+    console.log('status: ',status)
+    console.log('sendTo: ',sendTo)
+    console.log('subject: ',subject)
+}, [searchParam])
 
   const currentDate = utilService.currentDateTime()
 
   const { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = email
+
 
   function handleChange({ target }) {
     let { name: field, value, type } = target
@@ -42,6 +63,8 @@ export function EmailCompose() {
   function onCloseModal() {
     navigate("/")
   }
+
+
   return (
     <section className='compose-modal-container'>
       <form className="compose-form" onSubmit={onSubmitEmail}>

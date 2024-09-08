@@ -18,11 +18,13 @@ export function App() {
         <>
         <Router>
             <Routes>
+            <Route path='/Home' element={<Home/>} />
 
                 <Route path="/" element={<EmailIndex />} >
                     <Route path='/Compose/:emailId?' element={<EmailCompose />} />
                 </Route>
                 <Route path="/emailDetails/:id" element={<EmailDetails />} />
+
 
             </Routes>
 

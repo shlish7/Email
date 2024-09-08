@@ -41,6 +41,18 @@
     gap: 40px;
 
 }
+.email-index-left-aside-closed{
+    grid-area: left-aside ;
+    grid-row: span 2 ;
+    background-color: #f2f6fc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:50px;
+    gap: 40px;
+
+}
 .emails-list{
     grid-area: main;
     overflow-y: auto; 
@@ -80,3 +92,12 @@
 
 }
 
+.logo-section{
+    display: flex;
+    align-items: center;
+
+}
+.menu-bar-icon{
+    margin-top: 15px;
+    margin-left: 15px;
+}

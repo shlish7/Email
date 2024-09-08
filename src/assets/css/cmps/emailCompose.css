@@ -11,23 +11,38 @@
     /* background-color: rgba(0,0,0,0.4);  */
     /* Black w/ opacity */
 }
+@media only screen and (min-width: 640px) {
+    .compose-form{
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        /* inset: 0;
+        margin: auto; */
+        width:400px;
+        height: 400px;
+        background-color: white;
+        bottom: 0;
+        left: 167px;
+    }  
 
-.compose-form{
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    /* inset: 0;
-    margin: auto; */
-    width:400px;
-    height: 400px;
-    background-color: white;
-    bottom: 0;
-    left: 167px;
-    
+}
+
+@media only screen and (max-width: 640px) {
+    .compose-form{
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        /* inset: 0;
+        margin: auto; */
+        width:100vw;
+        height: 100vh;
+        background-color: white;
+        bottom: 0;
+      }  
+}
 
 
-}   
-
+ 
 .compose-box-title{
     display: flex;
     justify-content: space-between;
@@ -37,12 +52,10 @@
     padding-left: 10px;
 
 }
-
 .compose-span-title{
     font-family: "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
     color: #041e49;
 }
-
 .send-to-section{
     display: flex;
     justify-content: flex-start;
@@ -64,7 +77,6 @@
     outline: none;
     padding-left: 8px;
 }
-
 .subject-span{
     width: fit-content;
     padding-left: 8px;
@@ -77,7 +89,6 @@
     outline: none;
     padding-left: 8px;
 }
-
 .body-input{
     display: flex;
     flex-grow: 1;
@@ -101,7 +112,6 @@
     margin: 8px
 
 }
-
 .arrow-icon{
     rotate: 135deg;
 }
@@ -112,7 +122,6 @@
     gap:10px
 
 }
-
 .close-btn{
     background-color:  #f2f6fc;
     border: none;

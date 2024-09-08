@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { useSearchParams, Link, Outlet } from 'react-router-dom'
+import { useSearchParams, Link, Outlet, useNavigate, useOutletContext } from 'react-router-dom'
+
 
 import EmailList from "../cmps/EmailList"
 import EmailFilter from "../cmps/EmailFilter"
@@ -9,7 +10,7 @@ import { utilService } from "../services/util.service"
 import EmailFolderList from "../cmps/EmailFolderList"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faTrashCan, faPaperPlane, faFile } from '@fortawesome/free-regular-svg-icons'
-import { faInbox, faPen } from '@fortawesome/free-solid-svg-icons'
+import { faInbox, faPen, faBars } from '@fortawesome/free-solid-svg-icons'
 import gmailLogo from '../assets/imgs/gmailLogo.png'
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service"
 
@@ -17,14 +18,18 @@ import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service"
 
 
 export function EmailIndex() {
-    const defaultFilter = emailService.getDefaultFilter()
+    const navigate = useNavigate()
 
+    const defaultFilter = emailService.getDefaultFilter()
+    const [menuBar, setMenuBar] = useState('open')
     const [emails, setEmails] = useState([])
     const [unreadCount, setUnreadCount] = useState()
     const [activeFolder,setActiveFolder] = useState()
     const [searchParam, setSearchParam] = useSearchParams()
     const [filterBy, setFilterBy] = useState(emailService.getFilterFromSearchParams(searchParam))
     const [sortBy, setSortBy] = useState({ key: 'date', direction: 'desc' })
+
+    const { status, txt, isRead, sortField, sortOrder } = filterBy
 
 
     useEffect(() => {
@@ -52,13 +57,8 @@ export function EmailIndex() {
     async function loadEmails() {
         try {
             const emails = await emailService.query(filterBy)
-            sortEmails(emails)
-
+            onSortBy('date')
             setEmails(emails)
-            // unreadCountEmails(emails)
-            // console.log(tst)
-
-
         } catch (err) {
             console.log(err)
             showErrorMsg('Couldnt load emails')
@@ -120,20 +120,6 @@ export function EmailIndex() {
         }
     }
 
-    // function unreadCountEmails(emails) {
-    //     // console.log('emails: ', emails);
-    //     // if(filterBy.status==='inbox'){
-    //     //     const emailsCount = emails.filter(email => !email.isRead).length
-    //     //     setUnreadCount(emailsCount)
-    //     //     //setEmails(emails)
-    //     // }
-        
-    //     const emailsCount = emails.filter(email => !email.isRead ).length
-    //     setUnreadCount(emailsCount)
-
-        
-    // }
-
    async function unreadCountEmails(){
         try {
              const  unreadEmails = await emailService.getUnreadCountEmails()
@@ -166,24 +152,45 @@ export function EmailIndex() {
 
     }
 
-    function sortEmails(emails) {
-        const sortedEmails = [...emails].sort((a, b) => {
-            if (sortBy.key === 'date') {
-  
-                return sortBy.direction === 'asc' ? new Date(a.sentAt) - new Date(b.sentAt) : new Date(b.sentAt) - new Date(a.sentAt)
-            } else if (sortBy.key === 'subject') {
-                return sortBy.direction === 'asc' ? a.subject.localeCompare(b.subject) : b.subject.localeCompare(a.subject)
+
+
+    function onSortBy(sortField, sortOrder) {
+        const sortedEmails = [...emails]
+    
+       sortedEmails.sort((a, b) => {
+            let comparison = 0
+            switch(sortField) {
+                case 'date':
+                    comparison = new Date(a.sentAt) - new Date(b.sentAt)
+                    break
+                case 'subject':
+                    comparison = a.subject.localeCompare(b.subject);
+                    break
+                default:
+                    return 0
             }
-        })
-        setEmails(sortedEmails);
+            console.log('comparison: ',comparison);
+            return sortBy.direction === 'desc' ? -comparison : comparison
+        });
+        // setFilterBy(prev => ({ ...prev, [sortField]: sortOrder }));
+
+        setEmails(sortedEmails)
     }
 
-    function onSortBy(key) {
-        const newDirection = sortBy.direction === 'asc' ? 'desc' : 'asc';
-        setSortBy({ key, direction: newDirection });
+    function onChangeMenuBar(ev){
+        ev.stopPropagation()
+        ev.preventDefault()
+        menuBar === 'open' ? setMenuBar('close') : setMenuBar('open')
     }
 
+    function onNavigateToCompose(ev){
+        ev.stopPropagation()
+        ev.preventDefault()
+        console.log('compose');
+        navigate("/Compose")
 
+    }
+    
 
     if (!emails) return <div>Loading...</div>
     return <section className="email-index-section">
@@ -192,20 +199,38 @@ export function EmailIndex() {
             <EmailFilter filterBy={filterBy} onFilterBy={onFilterBy} />
 
         </header>
-        <aside className="email-index-left-aside">
-
+        <aside className={menuBar ==='open' ? "email-index-left-aside": "email-index-left-aside-closed"}>
+            <div className="logo-section">
+            <FontAwesomeIcon icon={faBars} className = 'menu-bar-icon' onClick={onChangeMenuBar}/>
             <img src={gmailLogo} alt="" className="gmail-logo" />
-            <Link className='link-to-compose' to="/Compose">
+            </div>
+      
+            {
+               menuBar==='open' ? <Link className='link-to-compose' to="/Compose">
+                Compose
+                <FontAwesomeIcon className="pen-icon" icon={faPen}  />
+            </Link> 
+            :
+            <FontAwesomeIcon className="pen-icon" icon={faPen} onClick={onNavigateToCompose} />
+
+            }
+            {/* <Link className='link-to-compose' to="/Compose">
                 Compose
                 <FontAwesomeIcon className="pen-icon" icon={faPen} />
-            </Link>
+            </Link> */}
 
 
-            <EmailFolderList filterBy={filterBy} onFilterBy={onFilterBy} emailFolders={emailFolders} unreadCount={unreadCount} onFolderChange={handleFolderChange} />
+            <EmailFolderList 
+                filterBy={filterBy}
+                onFilterBy={onFilterBy} 
+                emailFolders={emailFolders} 
+                unreadCount={unreadCount} 
+                onFolderChange={handleFolderChange}
+                menuBar={menuBar} />
 
         </aside>
         <main className="emails-list">
-            <EmailSort onSortBy={onSortBy}/>
+            <EmailSort onSortBy={onSortBy} />
             <EmailList emails={emails} onRemove={removeEmail} onUpdateEmail={onUpdateEmail} filterBy={filterBy}  />
 
         </main>
