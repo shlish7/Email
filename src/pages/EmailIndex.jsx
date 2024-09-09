@@ -97,20 +97,28 @@ export function EmailIndex() {
     }
 
     async function onSaveEmail(email) {
+        //console.log('index:', email);
         try {
-            console.log('onSaveEmail Index', email);
+            //console.log('onSaveEmail Index', email);
+            //console.log('email id Index', email.id);
             const emailToSave = await emailService.save(email)
+            //console.log('emailToSave:', emailToSave);
 
             if (!email.id) {
+                console.log('first time => if');
                 setEmails(emails => [...emails, emailToSave])
             }
             else {
+                console.log('all the time => else');
                 setEmails(emails => emails.map(_email => {
                     _email.id === emailToSave.id ? emailToSave : _email
                 }
 
                 ))
             }
+            console.log('index: ', emailToSave);
+            return emailToSave
+
             // navigate('/Compose?status=draft')
         } catch (err) {
             console.log(err)
@@ -146,7 +154,7 @@ export function EmailIndex() {
     ];
 
     function onFilterBy(filterBy) {
-        console.log('onFilterBy', filterBy);
+        // console.log('onFilterBy', filterBy);
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
 
     }

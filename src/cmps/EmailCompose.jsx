@@ -16,8 +16,6 @@ export function EmailCompose() {
   const { onSaveEmail } = useOutletContext()
   const timeoutIdRef = useRef()
 
-
-
   useEffect(() => {
     const status = searchParam.get('status')
     const sendTo = searchParam.get('to')
@@ -31,14 +29,14 @@ export function EmailCompose() {
       }))
     }
 
-    console.log('status: ',status)
-    console.log('sendTo: ',sendTo)
-    console.log('subject: ',subject)
+    // console.log('status: ',status)
+    // console.log('sendTo: ',sendTo)
+    // console.log('subject: ',subject)
 }, [searchParam])
 
   useEffect(()=>{
     clearTimeout(timeoutIdRef.current)
-    timeoutIdRef.current = setTimeout(onSaveEmailDraft, 2000)
+    timeoutIdRef.current = setTimeout(()=>onSaveEmailDraft(emailToEdit), 2000)
 
     return () => clearTimeout(timeoutIdRef.current);
 
@@ -46,7 +44,7 @@ export function EmailCompose() {
 
   const currentDate = utilService.currentDateTime()
 
-  const { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = emailToEdit
+  const { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to, isDraft } = emailToEdit
 
 
   function handleChange({ target }) {
@@ -67,14 +65,15 @@ export function EmailCompose() {
       [field]: value, 
       // sentAt: currentDate, 
       sentAt: utilService.currentDateTime(), 
-      from: 'sharon@gmail.com' }))
+      from: 'sharon@gmail.com',
+      isDraft: true }))
       
-      onSaveEmailDraft(emailToEdit)
   }
 
   function onSubmitEmail(ev) {
     ev.preventDefault()
     console.log('email: ', emailToEdit)
+    setEmailToEdit((prevEmail) => ({...prevEmail, ['isDreaft']:false }))
     onSaveEmailDraft(emailToEdit)
     onCloseModal()
   }
@@ -85,8 +84,12 @@ export function EmailCompose() {
 
   async function onSaveEmailDraft(email) {
     try {
-      console.log('email: ');
-        onSaveEmail(email)
+      console.log('email: form onsave draft', email);
+     // if(!email.id) {
+
+        const savedEmail = await onSaveEmail(email)
+        setEmailToEdit(savedEmail)
+    //  }
         // setEmailToEdit(updatedEmail)
 
     }
@@ -99,7 +102,7 @@ export function EmailCompose() {
 }
 
 
-
+console.log(emailToEdit);
   return (
     <section className='compose-modal-container'>
       <form className="compose-form" onSubmit={onSubmitEmail}>

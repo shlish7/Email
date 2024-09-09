@@ -84,7 +84,7 @@ async function query(filterBy) {
                 sent: email => !email.removedAt && email.sentAt,
                 star: email => email.isStarred === true && email.removedAt === null,
                 trash: email => !!email.removedAt,
-                draft: email => email.sentAt === null
+                draft: email => email.isDraft
             };
 
             emails = status ? emails.filter(filters[status]) : emails;
@@ -848,7 +848,8 @@ function _createEmails() {
             "sentAt": "2024-08-24T08:13:24",
             "removedAt": null,
             "from": "sharon@gmail.com",
-            "to": "sharon@gmail.com"
+            "to": "sharon@gmail.com",
+            "isDraft": false
         },
         {
             "id": "e002",
@@ -859,7 +860,9 @@ function _createEmails() {
             "sentAt": "2024-07-02T15:24:08",
             "removedAt": null,
             "from": "user89@webmail.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e003",
@@ -870,7 +873,9 @@ function _createEmails() {
             "sentAt": "2024-06-13T09:54:33",
             "removedAt": null,
             "from": "user36@appsus.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e004",
@@ -881,7 +886,9 @@ function _createEmails() {
             "sentAt": "2023-01-01T11:21:53",
             "removedAt": null,
             "from": "user99@example.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e005",
@@ -903,7 +910,9 @@ function _createEmails() {
             "sentAt": "2024-06-14T05:11:43",
             "removedAt": null,
             "from": "user53@appsus.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e007",
@@ -914,7 +923,9 @@ function _createEmails() {
             "sentAt": "2024-06-20T20:45:03",
             "removedAt": null,
             "from": "user98@example.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e008",
@@ -925,7 +936,9 @@ function _createEmails() {
             "sentAt": "2024-07-15T18:24:23",
             "removedAt": null,
             "from": "user45@webmail.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e009",
@@ -936,7 +949,9 @@ function _createEmails() {
             "sentAt": "2024-08-11T10:05:03",
             "removedAt": null,
             "from": "user74@company.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         {
             "id": "e010",
@@ -947,7 +962,9 @@ function _createEmails() {
             "sentAt": "2024-04-22T21:12:31",
             "removedAt": null,
             "from": "user50@example.com",
-            "to": "user@appsus.com"
+            "to": "user@appsus.com",
+            "isDraft": false
+
         },
         // Additional emails would follow the same format...
     ];
