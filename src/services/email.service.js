@@ -32,15 +32,15 @@ _createUsers()
 //             emails = emails.filter(email => {
 //                 return (isRead === null || isRead ==='' || email.isRead === isRead) &&
 //                     (          
-                        
+
 //                         email.subject?.toLowerCase().includes(txt?.toLowerCase()) ||
 //                         email.body?.toLowerCase().includes(txt?.toLowerCase()
 //                         )
 //                     )
 //             })
-      
+
 //             // console.log('emails',emails);
-    
+
 //             const filters = {
 //                 inbox: email => (email.to === 'user@appsus.com' || email.to === 'sharon@gmail.com') && email.removedAt === null,
 //                 sent: email =>  !email.removedAt && email.sentAt,
@@ -48,7 +48,7 @@ _createUsers()
 //                 star: email => email.isStarred === true && email.removedAt === null,
 //                 trash: email => !!email.removedAt
 //             };
-    
+
 //             return status ? emails.filter(filters[status]) : emails;
 //         }
 //         // console.log('emails servie',emails);
@@ -58,7 +58,7 @@ _createUsers()
 //         console.error('Failed to fetch emails:', err);
 
 //     }
-  
+
 
 // }
 
@@ -68,56 +68,89 @@ async function query(filterBy) {
         let emails = await storageService.query(STORAGE_KEY)
         // console.log('emails',emails);
         if (filterBy) {
-            let { status = '', txt = '', isRead = null , sortField, sortOrderDate, sortOrderSubject} = filterBy
+            let { status = '', txt = '', isRead = null, sortField, sortOrderDate, sortOrderSubject } = filterBy
             // console.log(filterBy)
             emails = emails.filter(email => {
-                return (isRead === null || isRead ==='' || email.isRead === isRead) &&
-                    (          
-                        
+                return (isRead === null || isRead === '' || email.isRead === isRead) &&
+                    (
+
                         email.subject?.toLowerCase().includes(txt?.toLowerCase()) ||
                         email.body?.toLowerCase().includes(txt?.toLowerCase()
                         )
                     )
             })
             const filters = {
-                inbox: email => (email.to === 'user@appsus.com' || email.to === 'sharon@gmail.com') && email.removedAt === null,
-                sent: email =>  !email.removedAt && email.sentAt,
+                inbox: email => (email.to === 'user@appsus.com' || email.to === 'sharon@gmail.com') && !email.removedAt,
+                sent: email => !email.removedAt && email.sentAt,
                 star: email => email.isStarred === true && email.removedAt === null,
                 trash: email => !!email.removedAt,
-                draft: email => email.sentAt===null
+                draft: email => email.sentAt === null
             };
-    
-            emails = status ? emails.filter(filters[status]) : emails;
 
-            emails.sort((a, b) => {
-                let comparison = 0
-                let sortOrder = 'desc'
-                switch(sortField) {
+            emails = status ? emails.filter(filters[status]) : emails;
+            // console.log('sortField ', sortField);
+
+            // if (sortField==='date'){
+            //     let sortOrder = sortOrderDate==='desc' ? -1 : 1
+            //         console.log('Before sortOrderDate',sortOrderDate);
+            //         console.log('After sortOrderDate',sortOrder);
+
+            //         emails.sort((mail1, mail2) => {
+            //             return (Date.now(mail1.sentAt) > Date.now(mail2.sentAt)? 1 : -1)*sortOrder
+            //         }) 
+
+            //     } else if( sortField=== 'subject') {
+            //         let sortOrder = sortOrderSubject==='desc' ? -1 : 1
+
+            //         console.log('sortOrder: ',sortOrder);
+            //         emails.sort((mail1, mail2) => {
+            //             console.log('mail1.subject.localeCompare(mail2.subject): ',mail1.subject.localeCompare(mail2.subject));
+            //             return mail1.subject.localeCompare(mail2.subject)*sortOrder
+            //         })
+            //    }
+
+            emails.sort((mail1, mail2) => {
+                // let comparison = 0
+                // let sortOrder = 'desc'
+                let sortOrder 
+
+                // console.log('sortField: ',sortField);
+
+                switch (sortField) {
                     case 'date':
-                        comparison = new Date(a.sentAt) - new Date(b.sentAt)
-                        
-                        sortOrder = sortOrderDate ==='desc' ?  -comparison : comparison
+                         sortOrder = sortOrderDate === 'desc' ? -1 : 1
+
+                        // comparison = new Date(a.sentAt) - new Date(b.sentAt)
+                        return (Date.now(mail1.sentAt) > Date.now(mail2.sentAt) ? 1 : -1) * sortOrder
+                        console.log('sortOrder switch: ', sortOrder);
+                        // sortOrder = sortOrderDate ==='desc' ?  -comparison : comparison
                         break
                     case 'subject':
-                        comparison = a.subject.localeCompare(b.subject);
-                        sortOrder = sortOrderSubject ==='desc' ?  -comparison : comparison
+                        sortOrder = sortOrderSubject === 'desc' ? -1 : 1
+
+                        console.log('subject', mail1.subject.localeCompare(mail2.subject));
+                        return mail1.subject.localeCompare(mail2.subject) * sortOrder
+                        // sortOrder = sortOrderSubject ==='desc' ?  -comparison : comparison
 
 
                         break
                     default:
                         return 0
                 }
-                console.log('comparison: ',comparison)
-                return sortOrder === 'desc' ? -comparison : comparison
-    });
+                // console.log('sortOrder: ',sortOrder);
 
-    }
+                //return sortOrder === 'desc' ? -comparison : comparison
+            });
+
+
+        }
+        // console.log('emails service: ',emails);
         return emails
     } catch (err) {
         console.error('Failed to fetch emails:', err);
 
     }
-  
+
 
 }
 
@@ -129,7 +162,7 @@ function remove(id) {
     return storageService.remove(STORAGE_KEY, id)
 }
 
-function createEmail(id='', subject = '', body = '', isRead = false, isStarred=false, sentAt='', removedAt='', from='', to='') {
+function createEmail(id = '', subject = '', body = '', isRead = false, isStarred = false, sentAt = '', removedAt = '', from = '', to = '') {
     return {
         id,
         subject,
@@ -150,8 +183,8 @@ function getDefaultFilter() {
         txt: "",
         isRead: null,
         sortField: 'date',
-        sortOrderDate: 'desc', 
-        sortOrderSubject:'desc'
+        sortOrderDate: 'desc',
+        sortOrderSubject: 'desc'
     }
 }
 
@@ -168,7 +201,7 @@ function getFilterFromSearchParams(searchParams) {
 
 function save(emailToSave) {
     if (emailToSave.id) {
-        console.log('put' ,emailToSave)
+        console.log('put', emailToSave)
         return storageService.put(STORAGE_KEY, emailToSave)
     } else {
         console.log('post', emailToSave)
@@ -176,13 +209,13 @@ function save(emailToSave) {
     }
 }
 
-async function getUnreadCountEmails(){
+async function getUnreadCountEmails() {
     const emails = await storageService.query(STORAGE_KEY)
     // console.log('emails Service',emails);
 
-    return emails.filter(email=> !email.isRead && (email.to ===loginUser || email.to===loginUser2 )).length
+    return emails.filter(email => !email.isRead && (email.to === loginUser || email.to === loginUser2)).length
     // console.log('x: ',x)
-     
+
 
 }
 
@@ -918,7 +951,7 @@ function _createEmails() {
         },
         // Additional emails would follow the same format...
     ];
-    
+
 
 
 
@@ -943,7 +976,7 @@ function _createUsers() {
 
 }
 
-function _sortEmails(emails, sortBy){
+function _sortEmails(emails, sortBy) {
 
     if (sortBy) {
         return emails.sort((a, b) => {
@@ -965,5 +998,5 @@ function _sortEmails(emails, sortBy){
 
 
 
-}
+    }
 }

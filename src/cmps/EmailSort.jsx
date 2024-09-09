@@ -28,7 +28,7 @@ export function EmailSort({onFilterBy, filterBy}) {
         const newDirection = filterByToEdit.sortOrderSubject === 'asc' ? 'desc' : 'asc'
         setFilterByToEdit(prev => ({
             ...prev,
-            sortOrderDate: newDirection,
+            sortOrderSubject: newDirection,
             sortField: 'subject'
         }));
     }

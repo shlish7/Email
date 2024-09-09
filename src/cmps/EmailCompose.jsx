@@ -66,24 +66,28 @@ export function EmailCompose() {
       ...prevEmail, 
       [field]: value, 
       // sentAt: currentDate, 
-      sentAt: null, 
+      sentAt: utilService.currentDateTime(), 
       from: 'sharon@gmail.com' }))
-
+      
+      onSaveEmailDraft(emailToEdit)
   }
 
   function onSubmitEmail(ev) {
     ev.preventDefault()
-    console.log('email: ', email)
+    console.log('email: ', emailToEdit)
+    onSaveEmailDraft(emailToEdit)
+    onCloseModal()
   }
 
   function onCloseModal() {
     navigate("/")
   }
 
-  async function onSaveEmailDraft() {
+  async function onSaveEmailDraft(email) {
     try {
-        const updatedEmail = await emailService.save(emailToEdit)
-        setEmailToEdit(updatedEmail)
+      console.log('email: ');
+        onSaveEmail(email)
+        // setEmailToEdit(updatedEmail)
 
     }
     catch (err) {

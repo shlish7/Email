@@ -151,31 +151,6 @@ export function EmailIndex() {
 
     }
 
-
-
-    // function onSortBy(sortField, sortOrder) {
-    //     const sortedEmails = [...emails]
-    
-    //    sortedEmails.sort((a, b) => {
-    //         let comparison = 0
-    //         switch(sortField) {
-    //             case 'date':
-    //                 comparison = new Date(a.sentAt) - new Date(b.sentAt)
-    //                 break
-    //             case 'subject':
-    //                 comparison = a.subject.localeCompare(b.subject);
-    //                 break
-    //             default:
-    //                 return 0
-    //         }
-    //         console.log('comparison: ',comparison);
-    //         return sortBy.direction === 'desc' ? -comparison : comparison
-    //     });
-    //     // setFilterBy(prev => ({ ...prev, [sortField]: sortOrder }));
-
-    //     setEmails(sortedEmails)
-    // }
-
     function onChangeMenuBar(ev){
         ev.stopPropagation()
         ev.preventDefault()
