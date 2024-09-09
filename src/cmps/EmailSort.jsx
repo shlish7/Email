@@ -1,28 +1,36 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 
-export function EmailSort({onSortBy}) {
-    const [dateArrowDirection, setDateArrowDirection] = useState('desc')
-    const [subjectArrowDirection, setSubjectArrowDirection] = useState()
+export function EmailSort({onFilterBy, filterBy}) {
+    const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+
+    useEffect(() => {
+        onFilterBy(filterByToEdit)
+    }, [filterByToEdit])
 
     function onSortDate() {
-        // Toggle the sorting direction
-        // console.log('dateArrowDirection',dateArrowDirection);
-        const newDirection = dateArrowDirection === 'asc' ? 'desc' : 'asc'
-        setDateArrowDirection(newDirection)
-        onSortBy('date')
+        const newDirection = filterByToEdit.sortOrderDate === 'asc' ? 'desc' : 'asc'
+   
+        setFilterByToEdit(prev => ({
+            ...prev,
+            sortOrderDate: newDirection,
+            sortField: 'date'
+        }));
+
     }
 
     function onSortSubject() {
-        // console.log('dateArrowDirection',dateArrowDirection);
 
-        const newDirection = subjectArrowDirection === 'asc' ? 'desc' : 'asc'
-        setSubjectArrowDirection(newDirection)
-        onSortBy('subject')
+        const newDirection = filterByToEdit.sortOrderSubject === 'asc' ? 'desc' : 'asc'
+        setFilterByToEdit(prev => ({
+            ...prev,
+            sortOrderDate: newDirection,
+            sortField: 'subject'
+        }));
     }
 
 
@@ -30,7 +38,7 @@ export function EmailSort({onSortBy}) {
     return (
         <section className='sort-emails'>
             <button className='sort-btn sort-date' onClick={onSortDate}>
-                {dateArrowDirection === 'asc' ? (
+                {filterByToEdit.sortOrderDate === 'asc' ? (
                     <FontAwesomeIcon icon={faChevronUp} className='up-arrow' />
                 ) : (
                     <FontAwesomeIcon icon={faChevronDown} className='down-arrow' />
@@ -38,7 +46,7 @@ export function EmailSort({onSortBy}) {
                 Date
             </button>
             <button className='sort-btn sort-subject' onClick={onSortSubject}>
-            {subjectArrowDirection === 'asc' ? (
+            {filterByToEdit.sortOrderSubject === 'asc' ? (
                     <FontAwesomeIcon icon={faChevronUp} className='up-arrow' />
                 ) : (
                     <FontAwesomeIcon icon={faChevronDown} className='down-arrow' />

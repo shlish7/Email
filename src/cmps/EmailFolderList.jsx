@@ -17,7 +17,6 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unr
 
   function onChooseFolder({ target }) {
     const { value, name, textContent } = target
-        console.log("target.dataset.folder: ", target.dataset.folder)
 
     if (target.dataset.folder) {
       const folderName = target.dataset.folder.toLowerCase().trim()
@@ -28,16 +27,12 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unr
     }
 
   }
-
-
-
-
     return (
       <section className="email-folder-list-section">
         <ul className="folder-list-ul">
           {emailFolders.map((folder, idx) => (
             <li
-              className={`folder-li ${filterBy.status === folder.name.toLowerCase() ? 'active' : ''}`}
+              className={`folder-li ${filterBy === folder.name.toLowerCase() ? 'active' : ''}`}
               key={idx}
               onClick={onChooseFolder}
             >
@@ -46,7 +41,7 @@ export default function EmailFolderList({ filterBy, onFilterBy, emailFolders,unr
                 <>
                   <h4
                     data-folder={folder.name}
-                    className={`folder-name ${filterBy.status === folder.name.toLowerCase() ? 'active' : ''}`}
+                    className={`folder-name ${filterBy === folder.name.toLowerCase() ? 'active' : ''}`}
                   >
                     {folder.name}
                   </h4>

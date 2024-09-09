@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faX} from '@fortawesome/free-solid-svg-icons'
 
 function EmailFilter({ filterBy, onFilterBy }) {
+
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
   const [isRead, setIsRead] = useState(filterBy.isRead)
   const [isSearch,setIsSearch] = useState()

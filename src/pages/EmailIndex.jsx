@@ -29,19 +29,19 @@ export function EmailIndex() {
     const [filterBy, setFilterBy] = useState(emailService.getFilterFromSearchParams(searchParam))
     const [sortBy, setSortBy] = useState({ key: 'date', direction: 'desc' })
 
-    const { status, txt, isRead, sortField, sortOrder } = filterBy
+    const { status, txt, isRead, sortField, sortOrderDate, sortOrderSubject } = filterBy
 
 
     useEffect(() => {
         const status = searchParam.get('status') || 'inbox'
         if (searchParam) setFilterBy(prev => ({ ...prev, status: status }))
+            console.log('filterBy',filterBy);
         
 
     }, [])
 
     useEffect(() => {
-        // console.log('useEff emails: ',emails);
-        // unreadCountEmails(emails)
+     
         unreadCountEmails()
     },[emails])
 
@@ -51,13 +51,11 @@ export function EmailIndex() {
         loadEmails()
         setSearchParam(utilService.getExistingProperties(filterBy))
 
-
-    }, [filterBy,sortBy])
+    }, [filterBy])
 
     async function loadEmails() {
         try {
             const emails = await emailService.query(filterBy)
-            onSortBy('date')
             setEmails(emails)
         } catch (err) {
             console.log(err)
@@ -69,7 +67,6 @@ export function EmailIndex() {
         try {
             await emailService.remove(emailId)
             setEmails(email => emails.filter(email => email.id !== emailId))
-            // unreadCountEmails(emails)
             showSuccessMsg('Email removed successfully')
 
         } catch (err) {
@@ -101,6 +98,7 @@ export function EmailIndex() {
 
     async function onSaveEmail(email) {
         try {
+            console.log('onSaveEmail Index', email);
             const emailToSave = await emailService.save(email)
 
             if (!email.id) {
@@ -113,6 +111,7 @@ export function EmailIndex() {
 
                 ))
             }
+            // navigate('/Compose?status=draft')
         } catch (err) {
             console.log(err)
             showErrorMsg('Couldnt sent email')
@@ -123,7 +122,6 @@ export function EmailIndex() {
    async function unreadCountEmails(){
         try {
              const  unreadEmails = await emailService.getUnreadCountEmails()
-             console.log('unreadEmails',unreadEmails);
 
             setUnreadCount(unreadEmails)
 
@@ -148,34 +146,35 @@ export function EmailIndex() {
     ];
 
     function onFilterBy(filterBy) {
-        setFilterBy(filterBy)
+        console.log('onFilterBy', filterBy);
+        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
 
     }
 
 
 
-    function onSortBy(sortField, sortOrder) {
-        const sortedEmails = [...emails]
+    // function onSortBy(sortField, sortOrder) {
+    //     const sortedEmails = [...emails]
     
-       sortedEmails.sort((a, b) => {
-            let comparison = 0
-            switch(sortField) {
-                case 'date':
-                    comparison = new Date(a.sentAt) - new Date(b.sentAt)
-                    break
-                case 'subject':
-                    comparison = a.subject.localeCompare(b.subject);
-                    break
-                default:
-                    return 0
-            }
-            console.log('comparison: ',comparison);
-            return sortBy.direction === 'desc' ? -comparison : comparison
-        });
-        // setFilterBy(prev => ({ ...prev, [sortField]: sortOrder }));
+    //    sortedEmails.sort((a, b) => {
+    //         let comparison = 0
+    //         switch(sortField) {
+    //             case 'date':
+    //                 comparison = new Date(a.sentAt) - new Date(b.sentAt)
+    //                 break
+    //             case 'subject':
+    //                 comparison = a.subject.localeCompare(b.subject);
+    //                 break
+    //             default:
+    //                 return 0
+    //         }
+    //         console.log('comparison: ',comparison);
+    //         return sortBy.direction === 'desc' ? -comparison : comparison
+    //     });
+    //     // setFilterBy(prev => ({ ...prev, [sortField]: sortOrder }));
 
-        setEmails(sortedEmails)
-    }
+    //     setEmails(sortedEmails)
+    // }
 
     function onChangeMenuBar(ev){
         ev.stopPropagation()
@@ -196,7 +195,7 @@ export function EmailIndex() {
     return <section className="email-index-section">
         <header className="email-index-header">
 
-            <EmailFilter filterBy={filterBy} onFilterBy={onFilterBy} />
+            <EmailFilter filterBy={{txt, isRead}} onFilterBy={onFilterBy} />
 
         </header>
         <aside className={menuBar ==='open' ? "email-index-left-aside": "email-index-left-aside-closed"}>
@@ -221,7 +220,7 @@ export function EmailIndex() {
 
 
             <EmailFolderList 
-                filterBy={filterBy}
+                filterBy={filterBy.status}
                 onFilterBy={onFilterBy} 
                 emailFolders={emailFolders} 
                 unreadCount={unreadCount} 
@@ -230,8 +229,11 @@ export function EmailIndex() {
 
         </aside>
         <main className="emails-list">
-            <EmailSort onSortBy={onSortBy} />
-            <EmailList emails={emails} onRemove={removeEmail} onUpdateEmail={onUpdateEmail} filterBy={filterBy}  />
+            <EmailSort filterBy={{sortField, sortOrderDate, sortOrderSubject}}  onFilterBy={onFilterBy} />
+            <EmailList emails={emails} 
+            onRemove={removeEmail} 
+            onUpdateEmail={onUpdateEmail} 
+            filterBy={filterBy.status}  />
 
         </main>
         <aside className="email-index-right-aside">

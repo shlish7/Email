@@ -46,7 +46,7 @@ function EmailPreview({ email, onUpdateEmail }) {
     function chagneToUnread(e) {
         e.stopPropagation()
         e.preventDefault()
-        setIsRead(false)
+        setIsRead(prev => !prev)
         const update = { ...email, isRead: false }
         // emailService.save(update)
         onUpdateEmail(update)

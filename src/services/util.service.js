@@ -44,7 +44,7 @@ function currentDateTime(){
     let hour = date.getHours()
     let minute = date.getHours()
     let seconds = date.getHours()
-    let currentDate = `${day}-${month}-${year} ${hour}:${minute}:${seconds}`
+    let currentDate = `${year}-${month}-${day}T${hour}:${minute}:${seconds}`
     
     return currentDate
 }

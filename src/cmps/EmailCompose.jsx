@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSearchParams ,useNavigate, useOutletContext } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,9 +10,12 @@ import { utilService } from '../services/util.service';
 
 export function EmailCompose() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(emailService.createEmail())
-  const { onSaveEmail } = useOutletContext()
+  const [emailToEdit, setEmailToEdit] = useState(emailService.createEmail())
+
   const [searchParam, setSearchParam] = useSearchParams()
+  const { onSaveEmail } = useOutletContext()
+  const timeoutIdRef = useRef()
+
 
 
   useEffect(() => {
@@ -21,7 +24,7 @@ export function EmailCompose() {
     const subject = searchParam.get('subject')   
     
     if (sendTo || subject) {
-      setEmail((prevEmail) => ({
+      setEmailToEdit((prevEmail) => ({
         ...prevEmail,
         to: sendTo || prevEmail.to,
         subject: subject || prevEmail.subject,
@@ -33,9 +36,17 @@ export function EmailCompose() {
     console.log('subject: ',subject)
 }, [searchParam])
 
+  useEffect(()=>{
+    clearTimeout(timeoutIdRef.current)
+    timeoutIdRef.current = setTimeout(onSaveEmailDraft, 2000)
+
+    return () => clearTimeout(timeoutIdRef.current);
+
+  },[emailToEdit])
+
   const currentDate = utilService.currentDateTime()
 
-  const { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = email
+  const { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to } = emailToEdit
 
 
   function handleChange({ target }) {
@@ -51,18 +62,38 @@ export function EmailCompose() {
       default:
         break;
     }
-    setEmail((prevEmail) => ({ ...prevEmail, [field]: value, sentAt: currentDate, from: 'sharon@gmail.com' }))
+    setEmailToEdit((prevEmail) => ({ 
+      ...prevEmail, 
+      [field]: value, 
+      // sentAt: currentDate, 
+      sentAt: null, 
+      from: 'sharon@gmail.com' }))
+
   }
 
   function onSubmitEmail(ev) {
     ev.preventDefault()
     console.log('email: ', email)
-    onSaveEmail(email)
   }
 
   function onCloseModal() {
     navigate("/")
   }
+
+  async function onSaveEmailDraft() {
+    try {
+        const updatedEmail = await emailService.save(emailToEdit)
+        setEmailToEdit(updatedEmail)
+
+    }
+    catch (err) {
+        console.log(err)
+        showErrorMsg('Couldnt save email')
+
+    }
+
+}
+
 
 
   return (
