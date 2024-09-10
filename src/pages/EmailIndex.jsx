@@ -111,7 +111,7 @@ export function EmailIndex() {
             else {
                 console.log('all the time => else');
                 setEmails(emails => emails.map(_email => {
-                    _email.id === emailToSave.id ? emailToSave : _email
+                    return _email.id === emailToSave.id ? emailToSave : _email
                 }
 
                 ))
